@@ -5,3 +5,4 @@
 *.swp
 typings/
 node_modules
+www/dist/
