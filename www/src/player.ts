@@ -1,5 +1,5 @@
 import { Config, PuyoColor } from "./config";
-import { Stage } from "./stage";
+import { PuyoOnBoard, Stage } from "./stage";
 import { PuyoImage } from "./puyoimage";
 import { Score } from "./score";
 
@@ -28,11 +28,9 @@ type TouchPoint = {
 };
 
 export class Player {
-    static centerPuyo: PuyoColor;
-    static movablePuyo: PuyoColor;
+    static centerPuyoOnBoard: PuyoOnBoard | null;
+    static movablePuyoOnBoard: PuyoOnBoard | null;
     static puyoStatus: PuyoStatus;
-    static centerPuyoElement: HTMLImageElement | null;
-    static movablePuyoElement: HTMLImageElement | null;
 
     static groundFrame: number;
     static keyStatus: KeyStatus;
@@ -183,15 +181,21 @@ export class Player {
             1,
             Math.min(5, Config.puyoColors)
         ) as PuyoColor;
-        this.centerPuyo = (Math.floor(Math.random() * puyoColors) +
+        const centerPuyo = (Math.floor(Math.random() * puyoColors) +
             1) as PuyoColor;
-        this.movablePuyo = (Math.floor(Math.random() * puyoColors) +
+        const movablePuyo = (Math.floor(Math.random() * puyoColors) +
             1) as PuyoColor;
         // 新しいぷよ画像を作成する
-        this.centerPuyoElement = PuyoImage.getPuyo(this.centerPuyo);
-        this.movablePuyoElement = PuyoImage.getPuyo(this.movablePuyo);
-        Stage.stageElement.appendChild(this.centerPuyoElement);
-        Stage.stageElement.appendChild(this.movablePuyoElement);
+        this.centerPuyoOnBoard = {
+            puyo: centerPuyo,
+            element: PuyoImage.getPuyo(centerPuyo),
+        };
+        this.movablePuyoOnBoard = {
+            puyo: movablePuyo,
+            element: PuyoImage.getPuyo(movablePuyo),
+        };
+        Stage.stageElement.appendChild(this.centerPuyoOnBoard.element);
+        Stage.stageElement.appendChild(this.movablePuyoOnBoard.element);
         // ぷよの初期配置を定める
         this.puyoStatus = {
             x: 2, // 中心ぷよの位置: 左から2列目
@@ -210,11 +214,11 @@ export class Player {
     }
 
     static setPuyoPosition() {
-        if (!this.centerPuyoElement || !this.movablePuyoElement) {
-            throw new Error("centerPuyoElement or movablePuyoElement is null");
+        if (!this.centerPuyoOnBoard || !this.movablePuyoOnBoard) {
+            throw new Error("centerPuyoOnBoard or movablePuyoOnBoard is null");
         }
-        this.centerPuyoElement.style.left = this.puyoStatus.left + "px";
-        this.centerPuyoElement.style.top = this.puyoStatus.top + "px";
+        this.centerPuyoOnBoard.element.style.left = this.puyoStatus.left + "px";
+        this.centerPuyoOnBoard.element.style.top = this.puyoStatus.top + "px";
         const x =
             this.puyoStatus.left +
             Math.cos((this.puyoStatus.rotation * Math.PI) / 180) *
@@ -223,8 +227,8 @@ export class Player {
             this.puyoStatus.top -
             Math.sin((this.puyoStatus.rotation * Math.PI) / 180) *
                 Config.puyoImgHeight;
-        this.movablePuyoElement.style.left = x + "px";
-        this.movablePuyoElement.style.top = y + "px";
+        this.movablePuyoOnBoard.element.style.left = x + "px";
+        this.movablePuyoOnBoard.element.style.top = y + "px";
     }
 
     static falling(isDownPressed: boolean) {
@@ -527,6 +531,9 @@ export class Player {
     }
 
     static fix() {
+        if (!this.centerPuyoOnBoard || !this.movablePuyoOnBoard) {
+            throw new Error("centerPuyoOnBoard or movablePuyoOnBoard is null");
+        }
         // 現在のぷよをステージ上に配置する
         const x = this.puyoStatus.x;
         const y = this.puyoStatus.y;
@@ -534,22 +541,19 @@ export class Player {
         const dy = this.puyoStatus.dy;
         if (y >= 0) {
             // 画面外のぷよは消してしまう
-            Stage.setPuyo(x, y, this.centerPuyo);
+            Stage.setPuyo(x, y, this.centerPuyoOnBoard.puyo);
             Stage.puyoCount++;
         }
         if (y + dy >= 0) {
             // 画面外のぷよは消してしまう
-            Stage.setPuyo(x + dx, y + dy, this.movablePuyo);
+            Stage.setPuyo(x + dx, y + dy, this.movablePuyoOnBoard.puyo);
             Stage.puyoCount++;
         }
-        if (!this.centerPuyoElement || !this.movablePuyoElement) {
-            throw new Error("centerPuyoElement or movablePuyoElement is null");
-        }
         // 操作用に作成したぷよ画像を消す
-        Stage.stageElement.removeChild(this.centerPuyoElement);
-        Stage.stageElement.removeChild(this.movablePuyoElement);
-        this.centerPuyoElement = null;
-        this.movablePuyoElement = null;
+        Stage.stageElement.removeChild(this.centerPuyoOnBoard.element);
+        Stage.stageElement.removeChild(this.movablePuyoOnBoard.element);
+        this.centerPuyoOnBoard = null;
+        this.movablePuyoOnBoard = null;
     }
 
     static batankyu() {

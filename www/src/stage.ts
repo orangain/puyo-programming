@@ -1,7 +1,7 @@
 import { Config, PuyoColor } from "./config";
 import { PuyoImage } from "./puyoimage";
 
-type PuyoOnBoard = {
+export type PuyoOnBoard = {
     puyo: PuyoColor;
     element: HTMLImageElement;
 };
