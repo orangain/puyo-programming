@@ -6,7 +6,10 @@ export class Score {
     static fontLength: number;
     static score: number;
 
-    static rensaBonus = [0, 8, 16, 32, 64, 96, 128, 160, 192, 224, 256, 288, 320, 352, 384, 416, 448, 480, 512, 544, 576, 608, 640, 672];
+    static rensaBonus = [
+        0, 8, 16, 32, 64, 96, 128, 160, 192, 224, 256, 288, 320, 352, 384, 416,
+        448, 480, 512, 544, 576, 608, 640, 672,
+    ];
     static pieceBonus = [0, 0, 0, 0, 2, 3, 4, 5, 6, 7, 10, 10];
     static colorBonus = [0, 0, 3, 6, 12, 24];
 
@@ -14,16 +17,22 @@ export class Score {
         this.fontTemplateList = [];
         let fontWidth = 0;
         for (let i = 0; i < 10; i++) {
-            const fontImage = document.getElementById(`font${i}`) as HTMLImageElement;
+            const fontImage = document.getElementById(
+                `font${i}`
+            ) as HTMLImageElement;
             if (fontWidth === 0) {
-                fontWidth = fontImage.width / fontImage.height * Config.fontHeight;
+                fontWidth =
+                    (fontImage.width / fontImage.height) * Config.fontHeight;
             }
             fontImage.height = Config.fontHeight;
             fontImage.width = fontWidth;
             this.fontTemplateList.push(fontImage);
         }
 
-        this.fontLength = Math.floor(Config.stageCols * Config.puyoImgWidth / this.fontTemplateList[0].width);
+        this.fontLength = Math.floor(
+            (Config.stageCols * Config.puyoImgWidth) /
+                this.fontTemplateList[0].width
+        );
         this.score = 0;
         this.showScore();
     }
@@ -39,7 +48,10 @@ export class Score {
             // 10で割ったあまりを求めて、一番下の桁を取り出す
             const number = score % 10;
             // 一番うしろに追加するのではなく、一番前に追加することで、スコアの並びを数字と同じようにする
-            scoreElement.insertBefore(this.fontTemplateList[number].cloneNode(true), scoreElement.firstChild);
+            scoreElement.insertBefore(
+                this.fontTemplateList[number].cloneNode(true),
+                scoreElement.firstChild
+            );
             // 10 で割って次の桁の準備をしておく
             score = Math.floor(score / 10);
         }
@@ -48,7 +60,10 @@ export class Score {
         rensa = Math.min(rensa, Score.rensaBonus.length - 1);
         piece = Math.min(piece, Score.pieceBonus.length - 1);
         color = Math.min(color, Score.colorBonus.length - 1);
-        let scale = Score.rensaBonus[rensa] + Score.pieceBonus[piece] + Score.colorBonus[color];
+        let scale =
+            Score.rensaBonus[rensa] +
+            Score.pieceBonus[piece] +
+            Score.colorBonus[color];
         if (scale === 0) {
             scale = 1;
         }
@@ -58,4 +73,4 @@ export class Score {
         this.score += score;
         this.showScore();
     }
-};
+}

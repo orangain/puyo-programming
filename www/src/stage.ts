@@ -1,23 +1,23 @@
-import { Config, PuyoColor } from './config';
+import { Config, PuyoColor } from "./config";
 import { PuyoImage } from "./puyoimage";
 
 type PuyoOnBoard = {
-    puyo: PuyoColor,
-    element: HTMLImageElement
-}
+    puyo: PuyoColor;
+    element: HTMLImageElement;
+};
 
 type FallingPuyo = {
-    element: HTMLImageElement,
-    position: number,
-    destination: number,
-    falling: boolean
-}
+    element: HTMLImageElement;
+    position: number;
+    destination: number;
+    falling: boolean;
+};
 
 type PuyoInfo = {
-    x: number,
-    y: number,
-    cell: PuyoOnBoard
-}
+    x: number;
+    y: number;
+    cell: PuyoOnBoard;
+};
 
 export class Stage {
     static stageElement: HTMLDivElement;
@@ -32,22 +32,27 @@ export class Stage {
     static initialize() {
         // HTML からステージの元となる要素を取得し、大きさを設定する
         const stageElement = document.getElementById("stage") as HTMLDivElement;
-        stageElement.style.width = Config.puyoImgWidth * Config.stageCols + 'px';
-        stageElement.style.height = Config.puyoImgHeight * Config.stageRows + 'px';
+        stageElement.style.width =
+            Config.puyoImgWidth * Config.stageCols + "px";
+        stageElement.style.height =
+            Config.puyoImgHeight * Config.stageRows + "px";
         stageElement.style.backgroundColor = Config.stageBackgroundColor;
         this.stageElement = stageElement;
 
-        const zenkeshiImage = document.getElementById("zenkeshi") as HTMLImageElement;
+        const zenkeshiImage = document.getElementById(
+            "zenkeshi"
+        ) as HTMLImageElement;
         zenkeshiImage.width = Config.puyoImgWidth * 6;
-        zenkeshiImage.style.position = 'absolute';
-        zenkeshiImage.style.display = 'none';
+        zenkeshiImage.style.position = "absolute";
+        zenkeshiImage.style.display = "none";
         this.zenkeshiImage = zenkeshiImage;
         stageElement.appendChild(zenkeshiImage);
 
         const scoreElement = document.getElementById("score") as HTMLDivElement;
         scoreElement.style.backgroundColor = Config.scoreBackgroundColor;
-        scoreElement.style.top = Config.puyoImgHeight * Config.stageRows + 'px';
-        scoreElement.style.width = Config.puyoImgWidth * Config.stageCols + 'px';
+        scoreElement.style.top = Config.puyoImgHeight * Config.stageRows + "px";
+        scoreElement.style.width =
+            Config.puyoImgWidth * Config.stageCols + "px";
         scoreElement.style.height = Config.fontHeight + "px";
         this.scoreElement = scoreElement;
 
@@ -55,7 +60,7 @@ export class Stage {
         this.board = [];
         let puyoCount = 0;
         for (let y = 0; y < Config.stageRows; y++) {
-            this.board[y] = []
+            this.board[y] = [];
             for (let x = 0; x < Config.stageCols; x++) {
                 this.board[y][x] = null;
             }
@@ -73,8 +78,8 @@ export class Stage {
         // メモリにセットする
         this.board[y][x] = {
             puyo: puyo,
-            element: puyoImage
-        }
+            element: puyoImage,
+        };
     }
 
     // 自由落下をチェックする
@@ -85,7 +90,7 @@ export class Stage {
         for (let y = Config.stageRows - 2; y >= 0; y--) {
             const line = this.board[y];
             for (let x = 0; x < line.length; x++) {
-                const cell = this.board[y][x]
+                const cell = this.board[y][x];
                 if (!cell) {
                     // このマスにぷよがなければ次
                     continue;
@@ -94,7 +99,10 @@ export class Stage {
                     // このぷよは落ちるので、取り除く
                     this.board[y][x] = null;
                     let dst = y;
-                    while (dst + 1 < Config.stageRows && this.board[dst + 1][x] == null) {
+                    while (
+                        dst + 1 < Config.stageRows &&
+                        this.board[dst + 1][x] == null
+                    ) {
                         dst++;
                     }
                     // 最終目的地に置く
@@ -104,7 +112,7 @@ export class Stage {
                         element: cell.element,
                         position: y * Config.puyoImgHeight,
                         destination: dst * Config.puyoImgHeight,
-                        falling: true
+                        falling: true,
                     });
                     // 落ちるものがあったことを記録しておく
                     isFalling = true;
@@ -134,7 +142,7 @@ export class Stage {
             // 新しい位置を保存する
             fallingPuyo.position = position;
             // ぷよを動かす
-            fallingPuyo.element.style.top = position + 'px';
+            fallingPuyo.element.style.top = position + "px";
         }
         return isFalling;
     }
@@ -162,16 +170,26 @@ export class Stage {
             sequencePuyoInfoList.push({
                 x: x,
                 y: y,
-                cell: orig
+                cell: orig,
             });
             this.board[y][x] = null;
 
             // 四方向の周囲ぷよを確認する
-            const direction = [[0, 1], [1, 0], [0, -1], [-1, 0]];
+            const direction = [
+                [0, 1],
+                [1, 0],
+                [0, -1],
+                [-1, 0],
+            ];
             for (let i = 0; i < direction.length; i++) {
                 const dx = x + direction[i][0];
                 const dy = y + direction[i][1];
-                if (dx < 0 || dy < 0 || dx >= Config.stageCols || dy >= Config.stageRows) {
+                if (
+                    dx < 0 ||
+                    dy < 0 ||
+                    dx >= Config.stageCols ||
+                    dy >= Config.stageRows
+                ) {
                     // ステージの外にはみ出た
                     continue;
                 }
@@ -182,8 +200,7 @@ export class Stage {
                 }
                 // そのぷよのまわりのぷよも消せるか確認する
                 checkSequentialPuyo(dx, dy);
-
-            };
+            }
         };
 
         // 実際に削除できるかの確認を行う
@@ -192,7 +209,10 @@ export class Stage {
                 sequencePuyoInfoList.length = 0;
                 const puyoColor = this.board[y][x]?.puyo;
                 checkSequentialPuyo(x, y);
-                if (sequencePuyoInfoList.length == 0 || sequencePuyoInfoList.length < Config.erasePuyoCount) {
+                if (
+                    sequencePuyoInfoList.length == 0 ||
+                    sequencePuyoInfoList.length < Config.erasePuyoCount
+                ) {
                     // 連続して並んでいる数が足りなかったので消さない
                     if (sequencePuyoInfoList.length) {
                         // 退避していたぷよを消さないリストに追加する
@@ -200,7 +220,7 @@ export class Stage {
                     }
                 } else {
                     if (!puyoColor) {
-                        throw new Error("puyoColor must be truthy")
+                        throw new Error("puyoColor must be truthy");
                     }
                     // これらは消して良いので消すリストに追加する
                     this.erasingPuyoInfoList.push(...sequencePuyoInfoList);
@@ -219,7 +239,7 @@ export class Stage {
             // もし消せるならば、消えるぷよの個数と色の情報をまとめて返す
             return {
                 piece: this.erasingPuyoInfoList.length,
-                color: Object.keys(erasedPuyoColor).length
+                color: Object.keys(erasedPuyoColor).length,
             };
         }
         return null;
@@ -238,25 +258,25 @@ export class Stage {
         } else if (ratio > 0.75) {
             for (const info of this.erasingPuyoInfoList) {
                 var element = info.cell.element;
-                element.style.display = 'block';
+                element.style.display = "block";
             }
             return true;
-        } else if (ratio > 0.50) {
+        } else if (ratio > 0.5) {
             for (const info of this.erasingPuyoInfoList) {
                 var element = info.cell.element;
-                element.style.display = 'none';
+                element.style.display = "none";
             }
             return true;
         } else if (ratio > 0.25) {
             for (const info of this.erasingPuyoInfoList) {
                 var element = info.cell.element;
-                element.style.display = 'block';
+                element.style.display = "block";
             }
             return true;
         } else {
             for (const info of this.erasingPuyoInfoList) {
                 var element = info.cell.element;
-                element.style.display = 'none';
+                element.style.display = "none";
             }
             return true;
         }
@@ -264,14 +284,18 @@ export class Stage {
 
     static showZenkeshi() {
         // 全消しを表示する
-        this.zenkeshiImage.style.display = 'block';
-        this.zenkeshiImage.style.opacity = '1';
+        this.zenkeshiImage.style.display = "block";
+        this.zenkeshiImage.style.opacity = "1";
         const startTime = Date.now();
         const startTop = Config.puyoImgHeight * Config.stageRows;
-        const endTop = Config.puyoImgHeight * Config.stageRows / 3;
+        const endTop = (Config.puyoImgHeight * Config.stageRows) / 3;
         const animation = () => {
-            const ratio = Math.min((Date.now() - startTime) / Config.zenkeshiDuration, 1);
-            this.zenkeshiImage.style.top = (endTop - startTop) * ratio + startTop + 'px';
+            const ratio = Math.min(
+                (Date.now() - startTime) / Config.zenkeshiDuration,
+                1
+            );
+            this.zenkeshiImage.style.top =
+                (endTop - startTop) * ratio + startTop + "px";
             if (ratio !== 1) {
                 requestAnimationFrame(animation);
             }
@@ -282,12 +306,15 @@ export class Stage {
         // 全消しを消去する
         const startTime = Date.now();
         const animation = () => {
-            const ratio = Math.min((Date.now() - startTime) / Config.zenkeshiDuration, 1);
+            const ratio = Math.min(
+                (Date.now() - startTime) / Config.zenkeshiDuration,
+                1
+            );
             this.zenkeshiImage.style.opacity = String(1 - ratio);
             if (ratio !== 1) {
                 requestAnimationFrame(animation);
             } else {
-                this.zenkeshiImage.style.display = 'none';
+                this.zenkeshiImage.style.display = "none";
             }
         };
         animation();

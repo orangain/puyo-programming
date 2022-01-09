@@ -1,7 +1,7 @@
-import { PuyoImage } from "./puyoimage"
-import { Stage } from "./stage"
-import { Player } from "./player"
-import { Score } from "./score"
+import { PuyoImage } from "./puyoimage";
+import { Stage } from "./stage";
+import { Player } from "./player";
+import { Score } from "./score";
 
 // 起動されたときに呼ばれる関数を登録する
 window.addEventListener("load", () => {
@@ -12,7 +12,8 @@ window.addEventListener("load", () => {
     loop();
 });
 
-type GameMode = "start"
+type GameMode =
+    | "start"
     | "checkFall"
     | "fall"
     | "checkErase"
@@ -23,7 +24,7 @@ type GameMode = "start"
     | "rotating"
     | "fix"
     | "gameOver"
-    | "batankyu"
+    | "batankyu";
 
 let mode: GameMode; // ゲームの現在の状況
 let frame: number; // ゲームの現在フレーム（1/60秒ごとに1追加される）
