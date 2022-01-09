@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Puyo, Stage as StageComponent } from "./Stage";
 import { Score as ScoreComponent } from "./Score";
-import { initialize, tick } from "../game";
+import { initialize, mode, tick } from "../game";
 import { Score } from "../score";
 import { Stage, PuyoOnBoard } from "../stage";
 import { Player } from "../player";
+import { Batankyu } from "./Batankyu";
+import { PuyoImage } from "../puyoimage";
 
 // まずステージを整える
 const initialFrame = initialize();
@@ -52,9 +54,16 @@ export const Game: React.VFC = () => {
         );
     }
 
+    const isBatankyu = mode === "batankyu";
+
     return (
         <>
             <StageComponent puyos={puyos} />
+            {isBatankyu && (
+                <Batankyu
+                    farmesFromGameOver={frame - PuyoImage.gameOverFrame}
+                />
+            )}
             <ScoreComponent score={Score.score} />
         </>
     );

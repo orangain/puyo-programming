@@ -17,7 +17,7 @@ type GameMode =
     | "gameOver"
     | "batankyu";
 
-let mode: GameMode; // ゲームの現在の状況
+export let mode: GameMode; // ゲームの現在の状況
 let combinationCount = 0; // 何連鎖かどうか
 
 export function initialize(): number {
@@ -122,7 +122,6 @@ export function tick(frame: number): number {
             mode = "batankyu";
             break;
         case "batankyu":
-            PuyoImage.batankyu(frame);
             Player.batankyu();
             break;
     }
