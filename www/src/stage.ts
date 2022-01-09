@@ -2,6 +2,7 @@ import { Config, PuyoColor } from "./config";
 import { PuyoImage } from "./puyoimage";
 
 export type PuyoOnBoard = {
+    puyoId: number;
     puyo: PuyoColor;
     element: HTMLImageElement;
 };
@@ -60,7 +61,7 @@ export class Stage {
     }
 
     // 画面とメモリ両方に puyo をセットする
-    static setPuyo(x: number, y: number, puyo: PuyoColor) {
+    static setPuyo(x: number, y: number, puyo: PuyoColor, puyoId: number) {
         // 画像を作成し配置する
         const puyoImage = PuyoImage.getPuyo(puyo);
         puyoImage.style.left = x * Config.puyoImgWidth + "px";
@@ -68,7 +69,8 @@ export class Stage {
         this.stageElement.appendChild(puyoImage);
         // メモリにセットする
         this.board[y][x] = {
-            puyo: puyo,
+            puyoId,
+            puyo,
             element: puyoImage,
         };
     }

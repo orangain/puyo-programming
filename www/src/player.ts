@@ -187,10 +187,12 @@ export class Player {
             1) as PuyoColor;
         // 新しいぷよ画像を作成する
         this.centerPuyoOnBoard = {
+            puyoId: generatePuyoId(),
             puyo: centerPuyo,
             element: PuyoImage.getPuyo(centerPuyo),
         };
         this.movablePuyoOnBoard = {
+            puyoId: generatePuyoId(),
             puyo: movablePuyo,
             element: PuyoImage.getPuyo(movablePuyo),
         };
@@ -541,12 +543,22 @@ export class Player {
         const dy = this.puyoStatus.dy;
         if (y >= 0) {
             // 画面外のぷよは消してしまう
-            Stage.setPuyo(x, y, this.centerPuyoOnBoard.puyo);
+            Stage.setPuyo(
+                x,
+                y,
+                this.centerPuyoOnBoard.puyo,
+                this.centerPuyoOnBoard.puyoId
+            );
             Stage.puyoCount++;
         }
         if (y + dy >= 0) {
             // 画面外のぷよは消してしまう
-            Stage.setPuyo(x + dx, y + dy, this.movablePuyoOnBoard.puyo);
+            Stage.setPuyo(
+                x + dx,
+                y + dy,
+                this.movablePuyoOnBoard.puyo,
+                this.movablePuyoOnBoard.puyoId
+            );
             Stage.puyoCount++;
         }
         // 操作用に作成したぷよ画像を消す
@@ -561,4 +573,9 @@ export class Player {
             location.reload();
         }
     }
+}
+
+let lastPuyoId = 0;
+function generatePuyoId(): number {
+    return ++lastPuyoId;
 }

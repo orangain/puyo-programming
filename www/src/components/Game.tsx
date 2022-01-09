@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Puyo, Stage as StageComponent } from "./Stage";
 import { Score as ScoreComponent } from "./Score";
 import { initialize, tick } from "../game";
 import { Score } from "../score";
+import { Stage } from "../stage";
+import { Player } from "../player";
 
 // まずステージを整える
 initialize();
@@ -30,8 +33,39 @@ export const Game: React.VFC = () => {
 
     // console.log(frame)
 
+    const puyos: Puyo[] = [];
+    Stage.board.forEach((line) =>
+        line.forEach((cell) => {
+            if (cell) {
+                puyos.push({
+                    id: cell.puyoId,
+                    color: cell.puyo,
+                    x: parseFloat(cell.element.style.left),
+                    y: parseFloat(cell.element.style.top),
+                });
+            }
+        })
+    );
+    if (Player.centerPuyoOnBoard) {
+        puyos.push({
+            id: Player.centerPuyoOnBoard.puyoId,
+            color: Player.centerPuyoOnBoard.puyo,
+            x: parseFloat(Player.centerPuyoOnBoard.element.style.left),
+            y: parseFloat(Player.centerPuyoOnBoard.element.style.top),
+        });
+    }
+    if (Player.movablePuyoOnBoard) {
+        puyos.push({
+            id: Player.movablePuyoOnBoard.puyoId,
+            color: Player.movablePuyoOnBoard.puyo,
+            x: parseFloat(Player.movablePuyoOnBoard.element.style.left),
+            y: parseFloat(Player.movablePuyoOnBoard.element.style.top),
+        });
+    }
+
     return (
         <>
+            <StageComponent puyos={puyos} />
             <ScoreComponent score={Score.score} />
         </>
     );
