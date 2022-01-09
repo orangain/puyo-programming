@@ -3,6 +3,5 @@
 /platforms
 .DS_Store
 *.swp
-.vscode/
 typings/
 node_modules
