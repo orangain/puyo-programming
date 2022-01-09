@@ -27,14 +27,14 @@ function initialize() {
 }
 
 function loop() {
-    switch(mode) {
+    switch (mode) {
         case 'start':
             // 最初は、もしかしたら空中にあるかもしれないぷよを自由落下させるところからスタート
             mode = 'checkFall';
             break;
         case 'checkFall':
             // 落ちるかどうか判定する
-            if(Stage.checkFall()) {
+            if (Stage.checkFall()) {
                 mode = 'fall'
             } else {
                 // 落ちないならば、ぷよを消せるかどうか判定する
@@ -42,7 +42,7 @@ function loop() {
             }
             break;
         case 'fall':
-            if(!Stage.fall()) {
+            if (!Stage.fall()) {
                 // すべて落ちきったら、ぷよを消せるかどうか判定する
                 mode = 'checkErase';
             }
@@ -50,14 +50,14 @@ function loop() {
         case 'checkErase':
             // 消せるかどうか判定する
             const eraseInfo = Stage.checkErase(frame);
-            if(eraseInfo) {
+            if (eraseInfo) {
                 mode = 'erasing';
                 combinationCount++;
                 // 得点を計算する
                 Score.calculateScore(combinationCount, eraseInfo.piece, eraseInfo.color);
                 Stage.hideZenkeshi();
             } else {
-                if(Stage.puyoCount === 0 && combinationCount > 0) {
+                if (Stage.puyoCount === 0 && combinationCount > 0) {
                     // 全消しの処理をする
                     Stage.showZenkeshi();
                     Score.addScore(3600);
@@ -68,13 +68,13 @@ function loop() {
             }
             break;
         case 'erasing':
-            if(!Stage.erasing(frame)) {
+            if (!Stage.erasing(frame)) {
                 // 消し終わったら、再度落ちるかどうか判定する
                 mode = 'checkFall';
             }
             break;
         case 'newPuyo':
-            if(!Player.createNewPuyo()) {
+            if (!Player.createNewPuyo()) {
                 // 新しい操作用ぷよを作成出来なかったら、ゲームオーバー
                 mode = 'gameOver';
             } else {
@@ -88,13 +88,13 @@ function loop() {
             mode = action; // 'playing' 'moving' 'rotating' 'fix' のどれかが帰ってくる
             break;
         case 'moving':
-            if(!Player.moving(frame)) {
+            if (!Player.moving(frame)) {
                 // 移動が終わったので操作可能にする
                 mode = 'playing';
             }
             break;
         case 'rotating':
-            if(!Player.rotating(frame)) {
+            if (!Player.rotating(frame)) {
                 // 回転が終わったので操作可能にする
                 mode = 'playing';
             }

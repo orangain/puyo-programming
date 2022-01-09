@@ -6,9 +6,9 @@ class Score {
     static initialize() {
         this.fontTemplateList = [];
         let fontWidth = 0;
-        for(let i = 0; i < 10; i++) {
+        for (let i = 0; i < 10; i++) {
             const fontImage = document.getElementById(`font${i}`);
-            if(fontWidth === 0) {
+            if (fontWidth === 0) {
                 fontWidth = fontImage.width / fontImage.height * Config.fontHeight;
             }
             fontImage.height = Config.fontHeight;
@@ -20,15 +20,15 @@ class Score {
         this.score = 0;
         this.showScore();
     }
-    static showScore () {
+    static showScore() {
         let score = this.score;
         const scoreElement = Stage.scoreElement;
         // まず最初に、scoreElement の中身を空っぽにする
-        while(scoreElement.firstChild) {
+        while (scoreElement.firstChild) {
             scoreElement.removeChild(scoreElement.firstChild);
         }
         // スコアを下の桁から埋めていく
-        for(let i = 0; i < this.fontLength; i++) {
+        for (let i = 0; i < this.fontLength; i++) {
             // 10で割ったあまりを求めて、一番下の桁を取り出す
             const number = score % 10;
             // 一番うしろに追加するのではなく、一番前に追加することで、スコアの並びを数字と同じようにする
@@ -37,17 +37,17 @@ class Score {
             score = Math.floor(score / 10);
         }
     }
-    static calculateScore (rensa, piece, color) {
+    static calculateScore(rensa, piece, color) {
         rensa = Math.min(rensa, Score.rensaBonus.length - 1);
         piece = Math.min(piece, Score.pieceBonus.length - 1);
         color = Math.min(color, Score.colorBonus.length - 1);
         let scale = Score.rensaBonus[rensa] + Score.pieceBonus[piece] + Score.colorBonus[color];
-        if(scale === 0) {
+        if (scale === 0) {
             scale = 1;
         }
         this.addScore(scale * piece * 10);
     }
-    static addScore (score) {
+    static addScore(score) {
         this.score += score;
         this.showScore();
     }
