@@ -20,20 +20,20 @@ type GameMode =
 let mode: GameMode; // ゲームの現在の状況
 let combinationCount = 0; // 何連鎖かどうか
 
-export function initialize() {
+export function initialize(): number {
     // 画像を準備する
     PuyoImage.initialize();
     // ステージを準備する
     Stage.initialize();
     // ユーザー操作の準備をする
     Player.initialize();
-    // シーンを初期状態にセットする
-    Score.initialize();
     // スコア表示の準備をする
+    Score.initialize();
     mode = "start";
+    return 0;
 }
 
-export function tick(frame: number) {
+export function tick(frame: number): number {
     switch (mode) {
         case "start":
             // 最初は、もしかしたら空中にあるかもしれないぷよを自由落下させるところからスタート
@@ -126,4 +126,6 @@ export function tick(frame: number) {
             Player.batankyu();
             break;
     }
+
+    return frame + 1;
 }

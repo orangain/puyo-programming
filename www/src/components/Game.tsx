@@ -7,18 +7,15 @@ import { Stage, PuyoOnBoard } from "../stage";
 import { Player } from "../player";
 
 // まずステージを整える
-initialize();
+const initialFrame = initialize();
 
 export const Game: React.VFC = () => {
     const reqIdRef = useRef<number>();
-    const [frame, setFrame] = useState(0); // ゲームの現在フレーム（1/60秒ごとに1追加される）
+    const [frame, setFrame] = useState(initialFrame); // ゲームの現在フレーム（1/60秒ごとに1追加される）
 
     const loop = () => {
         reqIdRef.current = requestAnimationFrame(loop); // 1/60秒後にもう一度呼び出す
-        setFrame((f) => {
-            tick(f);
-            return f + 1;
-        });
+        setFrame(tick);
     };
 
     useEffect(() => {
