@@ -2,31 +2,31 @@ import { Config } from "./config";
 import { PuyoImage } from "./puyoimage";
 
 export class Stage {
-    // static stageElement;
-    // static scoreElement;
-    // static zenkeshiImage;
-    // static board;
-    // static puyoCount;
-    // static fallingPuyoList = [];
-    // static eraseStartFrame;
-    // static erasingPuyoInfoList = [];
+    static stageElement: HTMLDivElement;
+    static scoreElement: HTMLDivElement;
+    static zenkeshiImage: HTMLImageElement;
+    static board;
+    static puyoCount;
+    static fallingPuyoList = [];
+    static eraseStartFrame;
+    static erasingPuyoInfoList = [];
 
     static initialize() {
         // HTML からステージの元となる要素を取得し、大きさを設定する
-        const stageElement = document.getElementById("stage");
+        const stageElement = document.getElementById("stage") as HTMLDivElement;
         stageElement.style.width = Config.puyoImgWidth * Config.stageCols + 'px';
         stageElement.style.height = Config.puyoImgHeight * Config.stageRows + 'px';
         stageElement.style.backgroundColor = Config.stageBackgroundColor;
         this.stageElement = stageElement;
 
-        const zenkeshiImage = document.getElementById("zenkeshi");
+        const zenkeshiImage = document.getElementById("zenkeshi") as HTMLImageElement;
         zenkeshiImage.width = Config.puyoImgWidth * 6;
         zenkeshiImage.style.position = 'absolute';
         zenkeshiImage.style.display = 'none';
         this.zenkeshiImage = zenkeshiImage;
         stageElement.appendChild(zenkeshiImage);
 
-        const scoreElement = document.getElementById("score");
+        const scoreElement = document.getElementById("score") as HTMLDivElement;
         scoreElement.style.backgroundColor = Config.scoreBackgroundColor;
         scoreElement.style.top = Config.puyoImgHeight * Config.stageRows + 'px';
         scoreElement.style.width = Config.puyoImgWidth * Config.stageCols + 'px';

@@ -3,14 +3,14 @@ import { Stage } from "./stage"
 
 export class PuyoImage {
 
-    // static puyoImages;
-    // static batankyuImage;
-    // static gameOverFrame;
+    static puyoImages;
+    static batankyuImage;
+    static gameOverFrame;
 
     static initialize() {
         this.puyoImages = [];
         for (let i = 0; i < 5; i++) {
-            const image = document.getElementById(`puyo_${i + 1}`);
+            const image = document.getElementById(`puyo_${i + 1}`) as HTMLImageElement;
             image.removeAttribute('id');
             image.width = Config.puyoImgWidth;
             image.height = Config.puyoImgHeight;

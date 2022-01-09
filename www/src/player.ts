@@ -4,21 +4,23 @@ import { PuyoImage } from "./puyoimage";
 import { Score } from "./score";
 
 export class Player {
-    // static centerPuyo;
-    // static movablePuyo;
-    // static puyoStatus;
-    // static centerPuyoElement;
-    // static movablePuyoElement;
+    static centerPuyo;
+    static movablePuyo;
+    static puyoStatus;
+    static centerPuyoElement;
+    static movablePuyoElement;
 
-    // static groundFrame;
-    // static keyStatus;
+    static groundFrame;
+    static keyStatus;
 
-    // static actionStartFrame;
-    // static moveSource;
-    // static moveDestination;
-    // static rotateBeforeLeft;
-    // static rotateAfterLeft;
-    // static rotateFromRotation;
+    static actionStartFrame;
+    static moveSource;
+    static moveDestination;
+    static rotateBeforeLeft;
+    static rotateAfterLeft;
+    static rotateFromRotation;
+
+    static touchPoint;
 
     static initialize() {
         // キーボードの入力を確認する
@@ -29,7 +31,7 @@ export class Player {
             down: false
         };
         // ブラウザのキーボードの入力を取得するイベントリスナを登録する
-        document.addEventListener('keydown', (e) => {
+        window.document.addEventListener('keydown', (e: KeyboardEvent) => {
             // キーボードが押された場合
             switch (e.keyCode) {
                 case 37: // 左向きキー
@@ -46,7 +48,7 @@ export class Player {
                     e.preventDefault(); return false;
             }
         });
-        document.addEventListener('keyup', (e) => {
+        document.addEventListener('keyup', (e: KeyboardEvent) => {
             // キーボードが離された場合
             switch (e.keyCode) {
                 case 37: // 左向きキー
@@ -70,11 +72,11 @@ export class Player {
             xe: 0,
             ye: 0
         }
-        document.addEventListener('touchstart', (e) => {
+        document.addEventListener('touchstart', (e: TouchEvent) => {
             this.touchPoint.xs = e.touches[0].clientX
             this.touchPoint.ys = e.touches[0].clientY
         })
-        document.addEventListener('touchmove', (e) => {
+        document.addEventListener('touchmove', (e: TouchEvent) => {
             // 指が少し動いた時は無視
             if (Math.abs(e.touches[0].clientX - this.touchPoint.xs) < 20 &&
                 Math.abs(e.touches[0].clientY - this.touchPoint.ys) < 20
@@ -379,7 +381,7 @@ export class Player {
     }
     static moving(frame) {
         // 移動中も自然落下はさせる
-        this.falling();
+        this.falling(false);
         const ratio = Math.min(1, (frame - this.actionStartFrame) / Config.playerMoveFrame);
         this.puyoStatus.left = ratio * (this.moveDestination - this.moveSource) + this.moveSource;
         this.setPuyoPosition();
@@ -390,7 +392,7 @@ export class Player {
     }
     static rotating(frame) {
         // 回転中も自然落下はさせる
-        this.falling();
+        this.falling(false);
         const ratio = Math.min(1, (frame - this.actionStartFrame) / Config.playerRotateFrame);
         this.puyoStatus.left = (this.rotateAfterLeft - this.rotateBeforeLeft) * ratio + this.rotateBeforeLeft;
         this.puyoStatus.rotation = this.rotateFromRotation + ratio * 90;
