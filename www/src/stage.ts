@@ -28,6 +28,7 @@ export class Stage {
     static fallingPuyoList: FallingPuyo[];
     static eraseStartFrame: number;
     static erasingPuyoInfoList: PuyoInfo[];
+    static erasingBlinkState: boolean;
 
     static initialize() {
         // HTML からステージの元となる要素を取得し、大きさを設定する
@@ -247,30 +248,19 @@ export class Stage {
                 var element = info.cell.element;
                 this.stageElement.removeChild(element);
             }
+            this.erasingBlinkState = false;
             return false;
         } else if (ratio > 0.75) {
-            for (const info of this.erasingPuyoInfoList) {
-                var element = info.cell.element;
-                element.style.display = "block";
-            }
+            this.erasingBlinkState = true;
             return true;
         } else if (ratio > 0.5) {
-            for (const info of this.erasingPuyoInfoList) {
-                var element = info.cell.element;
-                element.style.display = "none";
-            }
+            this.erasingBlinkState = false;
             return true;
         } else if (ratio > 0.25) {
-            for (const info of this.erasingPuyoInfoList) {
-                var element = info.cell.element;
-                element.style.display = "block";
-            }
+            this.erasingBlinkState = true;
             return true;
         } else {
-            for (const info of this.erasingPuyoInfoList) {
-                var element = info.cell.element;
-                element.style.display = "none";
-            }
+            this.erasingBlinkState = false;
             return true;
         }
     }

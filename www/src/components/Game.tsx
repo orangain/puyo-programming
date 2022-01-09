@@ -62,6 +62,16 @@ export const Game: React.VFC = () => {
             y: parseFloat(Player.movablePuyoOnBoard.element.style.top),
         });
     }
+    if (Stage.erasingBlinkState) {
+        puyos.push(
+            ...Stage.erasingPuyoInfoList.map((info) => ({
+                id: info.cell.puyoId,
+                color: info.cell.puyo,
+                x: parseFloat(info.cell.element.style.left),
+                y: parseFloat(info.cell.element.style.top),
+            }))
+        );
+    }
 
     return (
         <>
