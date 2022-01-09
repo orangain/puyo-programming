@@ -1,4 +1,9 @@
-class Player {
+import { Config } from "./config";
+import { Stage } from "./stage";
+import { PuyoImage } from "./puyoimage";
+import { Score } from "./score";
+
+export class Player {
     // static centerPuyo;
     // static movablePuyo;
     // static puyoStatus;

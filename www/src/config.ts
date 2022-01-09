@@ -1,5 +1,5 @@
 // 設定を記載しておくクラス
-class Config {
+export class Config {
 }
 Config.puyoImgWidth = 40; // ぷよぷよ画像の幅
 Config.puyoImgHeight = 40; // ぷよぷよ画像の高さ

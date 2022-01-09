@@ -1,4 +1,7 @@
-class Score {
+import { Config } from "./config";
+import { Stage } from "./stage";
+
+export class Score {
     // static fontTemplateList = [];
     // static fontLength;
     // static score = 0;

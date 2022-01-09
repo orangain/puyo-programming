@@ -1,4 +1,7 @@
-class Stage {
+import { Config } from "./config";
+import { PuyoImage } from "./puyoimage";
+
+export class Stage {
     // static stageElement;
     // static scoreElement;
     // static zenkeshiImage;
