@@ -3,15 +3,6 @@ import { Stage } from "./stage";
 import { Player } from "./player";
 import { Score } from "./score";
 
-// 起動されたときに呼ばれる関数を登録する
-window.addEventListener("load", () => {
-    // まずステージを整える
-    initialize();
-
-    // ゲームを開始する
-    loop();
-});
-
 type GameMode =
     | "start"
     | "checkFall"
@@ -27,10 +18,9 @@ type GameMode =
     | "batankyu";
 
 let mode: GameMode; // ゲームの現在の状況
-let frame: number; // ゲームの現在フレーム（1/60秒ごとに1追加される）
 let combinationCount = 0; // 何連鎖かどうか
 
-function initialize() {
+export function initialize() {
     // 画像を準備する
     PuyoImage.initialize();
     // ステージを準備する
@@ -41,11 +31,9 @@ function initialize() {
     Score.initialize();
     // スコア表示の準備をする
     mode = "start";
-    // フレームを初期化する
-    frame = 0;
 }
 
-function loop() {
+export function tick(frame: number) {
     switch (mode) {
         case "start":
             // 最初は、もしかしたら空中にあるかもしれないぷよを自由落下させるところからスタート
@@ -138,6 +126,4 @@ function loop() {
             Player.batankyu();
             break;
     }
-    frame++;
-    requestAnimationFrame(loop); // 1/60秒後にもう一度呼び出す
 }
