@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Score as ScoreComponent } from "./Score";
 import { initialize, tick } from "../game";
+import { Score } from "../score";
 
 // まずステージを整える
 initialize();
@@ -28,5 +30,9 @@ export const Game: React.VFC = () => {
 
     // console.log(frame)
 
-    return null;
+    return (
+        <>
+            <ScoreComponent score={Score.score} />
+        </>
+    );
 };

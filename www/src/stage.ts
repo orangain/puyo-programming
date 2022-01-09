@@ -21,7 +21,6 @@ type PuyoInfo = {
 
 export class Stage {
     static stageElement: HTMLDivElement;
-    static scoreElement: HTMLDivElement;
     static zenkeshiImage: HTMLImageElement;
     static board: (null | PuyoOnBoard)[][];
     static puyoCount: number;
@@ -47,14 +46,6 @@ export class Stage {
         zenkeshiImage.style.display = "none";
         this.zenkeshiImage = zenkeshiImage;
         stageElement.appendChild(zenkeshiImage);
-
-        const scoreElement = document.getElementById("score") as HTMLDivElement;
-        scoreElement.style.backgroundColor = Config.scoreBackgroundColor;
-        scoreElement.style.top = Config.puyoImgHeight * Config.stageRows + "px";
-        scoreElement.style.width =
-            Config.puyoImgWidth * Config.stageCols + "px";
-        scoreElement.style.height = Config.fontHeight + "px";
-        this.scoreElement = scoreElement;
 
         // メモリを準備する
         this.board = [];
