@@ -3,7 +3,7 @@ import { Puyo, Stage as StageComponent } from "./Stage";
 import { Score as ScoreComponent } from "./Score";
 import { initialize, tick } from "../game";
 import { Score } from "../score";
-import { Stage } from "../stage";
+import { Stage, PuyoOnBoard } from "../stage";
 import { Player } from "../player";
 
 // まずステージを整える
@@ -37,39 +37,21 @@ export const Game: React.VFC = () => {
     Stage.board.forEach((line) =>
         line.forEach((cell) => {
             if (cell) {
-                puyos.push({
-                    id: cell.puyoId,
-                    color: cell.puyo,
-                    x: parseFloat(cell.element.style.left),
-                    y: parseFloat(cell.element.style.top),
-                });
+                puyos.push(puyoFromPuyoOnBoard(cell));
             }
         })
     );
     if (Player.centerPuyoOnBoard) {
-        puyos.push({
-            id: Player.centerPuyoOnBoard.puyoId,
-            color: Player.centerPuyoOnBoard.puyo,
-            x: parseFloat(Player.centerPuyoOnBoard.element.style.left),
-            y: parseFloat(Player.centerPuyoOnBoard.element.style.top),
-        });
+        puyos.push(puyoFromPuyoOnBoard(Player.centerPuyoOnBoard));
     }
     if (Player.movablePuyoOnBoard) {
-        puyos.push({
-            id: Player.movablePuyoOnBoard.puyoId,
-            color: Player.movablePuyoOnBoard.puyo,
-            x: parseFloat(Player.movablePuyoOnBoard.element.style.left),
-            y: parseFloat(Player.movablePuyoOnBoard.element.style.top),
-        });
+        puyos.push(puyoFromPuyoOnBoard(Player.movablePuyoOnBoard));
     }
     if (Stage.erasingBlinkState) {
         puyos.push(
-            ...Stage.erasingPuyoInfoList.map((info) => ({
-                id: info.cell.puyoId,
-                color: info.cell.puyo,
-                x: parseFloat(info.cell.element.style.left),
-                y: parseFloat(info.cell.element.style.top),
-            }))
+            ...Stage.erasingPuyoInfoList.map((info) =>
+                puyoFromPuyoOnBoard(info.cell)
+            )
         );
     }
 
@@ -80,3 +62,12 @@ export const Game: React.VFC = () => {
         </>
     );
 };
+
+function puyoFromPuyoOnBoard(cell: PuyoOnBoard): Puyo {
+    return {
+        id: cell.puyoId,
+        color: cell.puyo,
+        x: parseFloat(cell.element.style.left),
+        y: parseFloat(cell.element.style.top),
+    };
+}

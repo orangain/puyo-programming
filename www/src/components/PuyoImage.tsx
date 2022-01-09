@@ -15,8 +15,8 @@ export const PuyoImage: React.VFC<PuyoImageProps> = ({ color, x, y }) => {
                 position: "absolute",
                 left: x,
                 top: y,
-                width: Config.puyoImgWidth,
-                height: Config.puyoImgHeight,
+                width: Math.floor(Config.puyoImgWidth),
+                height: Math.floor(Config.puyoImgHeight),
             }}
         />
     );
