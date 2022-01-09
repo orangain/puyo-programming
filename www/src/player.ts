@@ -1,26 +1,51 @@
-import { Config } from "./config";
+import { Config, PuyoColor } from "./config";
 import { Stage } from "./stage";
 import { PuyoImage } from "./puyoimage";
 import { Score } from "./score";
 
+
+type PuyoStatus = {
+    x: number, // 中心ぷよの位置: 左から2列目
+    y: number, // 画面上部ギリギリから出てくる
+    left: number,
+    top: number,
+    dx: number, // 動くぷよの相対位置: 動くぷよは上方向にある
+    dy: number,
+    rotation: number // 動くぷよの角度は90度（上向き）
+};
+
+type KeyStatus = {
+    right: boolean,
+    left: boolean,
+    up: boolean,
+    down: boolean
+}
+
+type TouchPoint = {
+    xs: number,
+    ys: number,
+    xe: number,
+    ye: number
+}
+
 export class Player {
-    static centerPuyo;
-    static movablePuyo;
-    static puyoStatus;
-    static centerPuyoElement;
-    static movablePuyoElement;
+    static centerPuyo: PuyoColor;
+    static movablePuyo: PuyoColor;
+    static puyoStatus: PuyoStatus;
+    static centerPuyoElement: HTMLImageElement | null;
+    static movablePuyoElement: HTMLImageElement | null;
 
-    static groundFrame;
-    static keyStatus;
+    static groundFrame: number;
+    static keyStatus: KeyStatus;
 
-    static actionStartFrame;
-    static moveSource;
-    static moveDestination;
-    static rotateBeforeLeft;
-    static rotateAfterLeft;
-    static rotateFromRotation;
+    static actionStartFrame: number;
+    static moveSource: number;
+    static moveDestination: number;
+    static rotateBeforeLeft: number;
+    static rotateAfterLeft: number;
+    static rotateFromRotation: number;
 
-    static touchPoint;
+    static touchPoint: TouchPoint;
 
     static initialize() {
         // キーボードの入力を確認する
@@ -102,7 +127,7 @@ export class Player {
         })
 
         // ジェスチャーを判定して、keyStatusプロパティを更新する関数
-        const gesture = (xs, ys, xe, ye) => {
+        const gesture = (xs: number, ys: number, xe: number, ye: number) => {
             const horizonDirection = xe - xs;
             const verticalDirection = ye - ys;
 
@@ -147,9 +172,9 @@ export class Player {
             return false;
         }
         // 新しいぷよの色を決める
-        const puyoColors = Math.max(1, Math.min(5, Config.puyoColors));
-        this.centerPuyo = Math.floor(Math.random() * puyoColors) + 1;
-        this.movablePuyo = Math.floor(Math.random() * puyoColors) + 1;
+        const puyoColors = Math.max(1, Math.min(5, Config.puyoColors)) as PuyoColor;
+        this.centerPuyo = Math.floor(Math.random() * puyoColors) + 1 as PuyoColor;
+        this.movablePuyo = Math.floor(Math.random() * puyoColors) + 1 as PuyoColor;
         // 新しいぷよ画像を作成する
         this.centerPuyoElement = PuyoImage.getPuyo(this.centerPuyo);
         this.movablePuyoElement = PuyoImage.getPuyo(this.movablePuyo);
@@ -173,6 +198,9 @@ export class Player {
     }
 
     static setPuyoPosition() {
+        if (!this.centerPuyoElement || !this.movablePuyoElement) {
+            throw new Error("centerPuyoElement or movablePuyoElement is null")
+        }
         this.centerPuyoElement.style.left = this.puyoStatus.left + 'px';
         this.centerPuyoElement.style.top = this.puyoStatus.top + 'px';
         const x = this.puyoStatus.left + Math.cos(this.puyoStatus.rotation * Math.PI / 180) * Config.puyoImgWidth;
@@ -181,7 +209,7 @@ export class Player {
         this.movablePuyoElement.style.top = y + 'px';
     }
 
-    static falling(isDownPressed) {
+    static falling(isDownPressed: boolean) {
         // 現状の場所の下にブロックがあるかどうか確認する
         let isBlocked = false;
         let x = this.puyoStatus.x;
@@ -237,7 +265,7 @@ export class Player {
         }
 
     }
-    static playing(frame) {
+    static playing(frame: number) {
         // まず自由落下を確認する
         // 下キーが押されていた場合、それ込みで自由落下させる
         if (this.falling(this.keyStatus.down)) {
@@ -379,7 +407,7 @@ export class Player {
         }
         return 'playing';
     }
-    static moving(frame) {
+    static moving(frame: number) {
         // 移動中も自然落下はさせる
         this.falling(false);
         const ratio = Math.min(1, (frame - this.actionStartFrame) / Config.playerMoveFrame);
@@ -390,7 +418,7 @@ export class Player {
         }
         return true;
     }
-    static rotating(frame) {
+    static rotating(frame: number) {
         // 回転中も自然落下はさせる
         this.falling(false);
         const ratio = Math.min(1, (frame - this.actionStartFrame) / Config.playerRotateFrame);
@@ -419,6 +447,9 @@ export class Player {
             // 画面外のぷよは消してしまう
             Stage.setPuyo(x + dx, y + dy, this.movablePuyo);
             Stage.puyoCount++;
+        }
+        if (!this.centerPuyoElement || !this.movablePuyoElement) {
+            throw new Error("centerPuyoElement or movablePuyoElement is null")
         }
         // 操作用に作成したぷよ画像を消す
         Stage.stageElement.removeChild(this.centerPuyoElement);

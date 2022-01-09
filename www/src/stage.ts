@@ -1,15 +1,33 @@
-import { Config } from "./config";
+import { Config, PuyoColor } from './config';
 import { PuyoImage } from "./puyoimage";
+
+type PuyoOnBoard = {
+    puyo: PuyoColor,
+    element: HTMLImageElement
+}
+
+type FallingPuyo = {
+    element: HTMLImageElement,
+    position: number,
+    destination: number,
+    falling: boolean
+}
+
+type PuyoInfo = {
+    x: number,
+    y: number,
+    cell: PuyoOnBoard
+}
 
 export class Stage {
     static stageElement: HTMLDivElement;
     static scoreElement: HTMLDivElement;
     static zenkeshiImage: HTMLImageElement;
-    static board;
-    static puyoCount;
-    static fallingPuyoList = [];
-    static eraseStartFrame;
-    static erasingPuyoInfoList = [];
+    static board: (null | PuyoOnBoard)[][];
+    static puyoCount: number;
+    static fallingPuyoList: FallingPuyo[];
+    static eraseStartFrame: number;
+    static erasingPuyoInfoList: PuyoInfo[];
 
     static initialize() {
         // HTML からステージの元となる要素を取得し、大きさを設定する
@@ -34,39 +52,19 @@ export class Stage {
         this.scoreElement = scoreElement;
 
         // メモリを準備する
-        this.board = [
-            [0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0],
-        ];
+        this.board = [];
         let puyoCount = 0;
         for (let y = 0; y < Config.stageRows; y++) {
-            const line = this.board[y] || (this.board[y] = []);
+            this.board[y] = []
             for (let x = 0; x < Config.stageCols; x++) {
-                const puyo = line[x];
-                if (puyo >= 1 && puyo <= 5) {
-                    // line[x] = {puyo: puyo, element: this.setPuyo(x, y, puyo)};
-                    this.setPuyo(x, y, puyo);
-                    puyoCount++;
-                } else {
-                    line[x] = null;
-                }
+                this.board[y][x] = null;
             }
         }
         this.puyoCount = puyoCount;
     }
 
     // 画面とメモリ両方に puyo をセットする
-    static setPuyo(x, y, puyo) {
+    static setPuyo(x: number, y: number, puyo: PuyoColor) {
         // 画像を作成し配置する
         const puyoImage = PuyoImage.getPuyo(puyo);
         puyoImage.style.left = x * Config.puyoImgWidth + "px";
@@ -87,13 +85,13 @@ export class Stage {
         for (let y = Config.stageRows - 2; y >= 0; y--) {
             const line = this.board[y];
             for (let x = 0; x < line.length; x++) {
-                if (!this.board[y][x]) {
+                const cell = this.board[y][x]
+                if (!cell) {
                     // このマスにぷよがなければ次
                     continue;
                 }
                 if (!this.board[y + 1][x]) {
                     // このぷよは落ちるので、取り除く
-                    let cell = this.board[y][x];
                     this.board[y][x] = null;
                     let dst = y;
                     while (dst + 1 < Config.stageRows && this.board[dst + 1][x] == null) {
@@ -142,17 +140,17 @@ export class Stage {
     }
 
     // 消せるかどうか判定する
-    static checkErase(startFrame) {
+    static checkErase(startFrame: number) {
         this.eraseStartFrame = startFrame;
         this.erasingPuyoInfoList.length = 0;
 
         // 何色のぷよを消したかを記録する
-        const erasedPuyoColor = {};
+        const erasedPuyoColor: Partial<Record<PuyoColor, boolean>> = {};
 
         // 隣接ぷよを確認する関数内関数を作成
-        const sequencePuyoInfoList = [];
-        const existingPuyoInfoList = [];
-        const checkSequentialPuyo = (x, y) => {
+        const sequencePuyoInfoList: PuyoInfo[] = [];
+        const existingPuyoInfoList: PuyoInfo[] = [];
+        const checkSequentialPuyo = (x: number, y: number) => {
             // ぷよがあるか確認する
             const orig = this.board[y][x];
             if (!orig) {
@@ -160,11 +158,11 @@ export class Stage {
                 return;
             }
             // あるなら一旦退避して、メモリ上から消す
-            const puyo = this.board[y][x].puyo;
+            const puyo = orig.puyo;
             sequencePuyoInfoList.push({
                 x: x,
                 y: y,
-                cell: this.board[y][x]
+                cell: orig
             });
             this.board[y][x] = null;
 
@@ -192,7 +190,7 @@ export class Stage {
         for (let y = 0; y < Config.stageRows; y++) {
             for (let x = 0; x < Config.stageCols; x++) {
                 sequencePuyoInfoList.length = 0;
-                const puyoColor = this.board[y][x] && this.board[y][x].puyo;
+                const puyoColor = this.board[y][x]?.puyo;
                 checkSequentialPuyo(x, y);
                 if (sequencePuyoInfoList.length == 0 || sequencePuyoInfoList.length < Config.erasePuyoCount) {
                     // 連続して並んでいる数が足りなかったので消さない
@@ -201,6 +199,9 @@ export class Stage {
                         existingPuyoInfoList.push(...sequencePuyoInfoList);
                     }
                 } else {
+                    if (!puyoColor) {
+                        throw new Error("puyoColor must be truthy")
+                    }
                     // これらは消して良いので消すリストに追加する
                     this.erasingPuyoInfoList.push(...sequencePuyoInfoList);
                     erasedPuyoColor[puyoColor] = true;
@@ -224,7 +225,7 @@ export class Stage {
         return null;
     }
     // 消すアニメーションをする
-    static erasing(frame) {
+    static erasing(frame: number) {
         const elapsedFrame = frame - this.eraseStartFrame;
         const ratio = elapsedFrame / Config.eraseAnimationDuration;
         if (ratio > 1) {

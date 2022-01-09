@@ -12,8 +12,21 @@ window.addEventListener("load", () => {
     loop();
 });
 
-let mode; // ゲームの現在の状況
-let frame; // ゲームの現在フレーム（1/60秒ごとに1追加される）
+type GameMode = "start"
+    | "checkFall"
+    | "fall"
+    | "checkErase"
+    | "erasing"
+    | "newPuyo"
+    | "playing"
+    | "moving"
+    | "rotating"
+    | "fix"
+    | "gameOver"
+    | "batankyu"
+
+let mode: GameMode; // ゲームの現在の状況
+let frame: number; // ゲームの現在フレーム（1/60秒ごとに1追加される）
 let combinationCount = 0; // 何連鎖かどうか
 
 function initialize() {

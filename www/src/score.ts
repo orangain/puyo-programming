@@ -2,9 +2,9 @@ import { Config } from "./config";
 import { Stage } from "./stage";
 
 export class Score {
-    static fontTemplateList = [];
-    static fontLength;
-    static score = 0;
+    static fontTemplateList: HTMLImageElement[];
+    static fontLength: number;
+    static score: number;
 
     static rensaBonus = [0, 8, 16, 32, 64, 96, 128, 160, 192, 224, 256, 288, 320, 352, 384, 416, 448, 480, 512, 544, 576, 608, 640, 672];
     static pieceBonus = [0, 0, 0, 0, 2, 3, 4, 5, 6, 7, 10, 10];
@@ -44,7 +44,7 @@ export class Score {
             score = Math.floor(score / 10);
         }
     }
-    static calculateScore(rensa, piece, color) {
+    static calculateScore(rensa: number, piece: number, color: number) {
         rensa = Math.min(rensa, Score.rensaBonus.length - 1);
         piece = Math.min(piece, Score.pieceBonus.length - 1);
         color = Math.min(color, Score.colorBonus.length - 1);
@@ -54,7 +54,7 @@ export class Score {
         }
         this.addScore(scale * piece * 10);
     }
-    static addScore(score) {
+    static addScore(score: number) {
         this.score += score;
         this.showScore();
     }

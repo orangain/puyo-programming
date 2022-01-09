@@ -1,3 +1,5 @@
+export type PuyoColor = 1 | 2 | 3 | 4 | 5
+
 export const Config = {
 
     fontHeight: 33,
@@ -15,7 +17,7 @@ export const Config = {
     erasePuyoCount: 4, // 何個以上揃ったら消えるか
     eraseAnimationDuration: 30, // 何フレームでぷよを消すか
 
-    puyoColors: 4, // 何色のぷよを使うか
+    puyoColors: 4 as PuyoColor, // 何色のぷよを使うか
     playerFallingSpeed: 0.9, // プレイ中の自然落下のスピード
     playerDownSpeed: 15, // プレイ中の下キー押下時の落下スピード
     playerGroundFrame: 20, // 何フレーム接地したらぷよを固定するか
