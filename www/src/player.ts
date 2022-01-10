@@ -35,24 +35,9 @@ export class Player {
             // 空白でない場合は新しいぷよを置けない
             return false;
         }
-        // 新しいぷよの色を決める
-        const puyoColors = Math.max(
-            1,
-            Math.min(5, Config.puyoColors)
-        ) as PuyoColor;
-        const centerPuyoColor = (Math.floor(Math.random() * puyoColors) +
-            1) as PuyoColor;
-        const movablePuyoColor = (Math.floor(Math.random() * puyoColors) +
-            1) as PuyoColor;
-        // 新しいぷよ画像を作成する
-        this.centerPuyo = {
-            puyoId: generatePuyoId(),
-            color: centerPuyoColor,
-        };
-        this.movablePuyo = {
-            puyoId: generatePuyoId(),
-            color: movablePuyoColor,
-        };
+        // 新しいぷよを作成する
+        this.centerPuyo = generatePuyo();
+        this.movablePuyo = generatePuyo();
         // ぷよの初期配置を定める
         this.puyoStatus = {
             x: 2, // 中心ぷよの位置: 左から2列目
@@ -426,7 +411,20 @@ export class Player {
     }
 }
 
+function generatePuyo(): Puyo {
+    return {
+        puyoId: generatePuyoId(),
+        color: randomPuyoColor(),
+    };
+}
+
 let lastPuyoId = 0;
 function generatePuyoId(): number {
     return ++lastPuyoId;
+}
+
+function randomPuyoColor(): PuyoColor {
+    // 新しいぷよの色を決める
+    const puyoColors = Math.max(1, Math.min(5, Config.puyoColors));
+    return (Math.floor(Math.random() * puyoColors) + 1) as PuyoColor;
 }
