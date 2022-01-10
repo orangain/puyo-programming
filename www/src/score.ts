@@ -17,13 +17,13 @@ export class Score {
     }
 
     static addErasingScore(rensa: number, piece: number, color: number) {
-        rensa = Math.min(rensa, Score.rensaBonus.length - 1);
-        piece = Math.min(piece, Score.pieceBonus.length - 1);
-        color = Math.min(color, Score.colorBonus.length - 1);
+        rensa = Math.min(rensa, this.rensaBonus.length - 1);
+        piece = Math.min(piece, this.pieceBonus.length - 1);
+        color = Math.min(color, this.colorBonus.length - 1);
         let scale =
-            Score.rensaBonus[rensa] +
-            Score.pieceBonus[piece] +
-            Score.colorBonus[color];
+            this.rensaBonus[rensa] +
+            this.pieceBonus[piece] +
+            this.colorBonus[color];
         if (scale === 0) {
             scale = 1;
         }
