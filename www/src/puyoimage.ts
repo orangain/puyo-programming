@@ -1,4 +1,4 @@
-import { Config, PuyoColor } from "./config";
+import { PuyoColor } from "./config";
 
 export type VirtualPuyoElement = {
     style: {
@@ -8,28 +8,15 @@ export type VirtualPuyoElement = {
 };
 
 export class PuyoImage {
-    static puyoImages: HTMLImageElement[];
     static gameOverFrame: number;
 
-    static initialize() {
-        this.puyoImages = [];
-        for (let i = 0; i < 5; i++) {
-            const image = document.getElementById(
-                `puyo_${i + 1}`
-            ) as HTMLImageElement;
-            image.removeAttribute("id");
-            image.width = Config.puyoImgWidth;
-            image.height = Config.puyoImgHeight;
-            image.style.position = "absolute";
-            this.puyoImages[i] = image;
-        }
-    }
-
-    static getPuyo(index: PuyoColor): VirtualPuyoElement {
-        const image = this.puyoImages[index - 1].cloneNode(
-            true
-        ) as HTMLImageElement;
-        return image;
+    static getPuyo(): VirtualPuyoElement {
+        return {
+            style: {
+                left: "0",
+                top: "0",
+            },
+        };
     }
 
     static prepareBatankyu(frame: number) {

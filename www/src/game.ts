@@ -21,8 +21,6 @@ export let mode: GameMode; // ゲームの現在の状況
 let combinationCount = 0; // 何連鎖かどうか
 
 export function initialize(): number {
-    // 画像を準備する
-    PuyoImage.initialize();
     // ステージを準備する
     Stage.initialize();
     // ユーザー操作の準備をする

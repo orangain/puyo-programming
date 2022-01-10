@@ -189,12 +189,12 @@ export class Player {
         this.centerPuyoOnBoard = {
             puyoId: generatePuyoId(),
             puyo: centerPuyo,
-            element: PuyoImage.getPuyo(centerPuyo),
+            element: PuyoImage.getPuyo(),
         };
         this.movablePuyoOnBoard = {
             puyoId: generatePuyoId(),
             puyo: movablePuyo,
-            element: PuyoImage.getPuyo(movablePuyo),
+            element: PuyoImage.getPuyo(),
         };
         // ぷよの初期配置を定める
         this.puyoStatus = {

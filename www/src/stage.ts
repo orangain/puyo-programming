@@ -47,7 +47,7 @@ export class Stage {
     // 画面とメモリ両方に puyo をセットする
     static setPuyo(x: number, y: number, puyo: PuyoColor, puyoId: number) {
         // 画像を作成し配置する
-        const puyoImage = PuyoImage.getPuyo(puyo);
+        const puyoImage = PuyoImage.getPuyo();
         puyoImage.style.left = x * Config.puyoImgWidth + "px";
         puyoImage.style.top = y * Config.puyoImgHeight + "px";
         // メモリにセットする
