@@ -10,7 +10,7 @@ type FallingPuyo = {
 type PuyoInfo = {
     x: number;
     y: number;
-    cell: PuyoOnStage;
+    puyo: PuyoOnStage;
 };
 
 export class Stage {
@@ -137,17 +137,16 @@ export class Stage {
         const existingPuyoInfoList: PuyoInfo[] = [];
         const checkSequentialPuyo = (x: number, y: number) => {
             // ぷよがあるか確認する
-            const orig = this.board[y][x];
-            if (!orig) {
+            const origPuyo = this.board[y][x];
+            if (!origPuyo) {
                 // ないなら何もしない
                 return;
             }
             // あるなら一旦退避して、メモリ上から消す
-            const puyo = orig.color;
             sequencePuyoInfoList.push({
                 x: x,
                 y: y,
-                cell: orig,
+                puyo: origPuyo,
             });
             this.board[y][x] = null;
 
@@ -171,7 +170,7 @@ export class Stage {
                     continue;
                 }
                 const cell = this.board[dy][dx];
-                if (!cell || cell.color !== puyo) {
+                if (!cell || cell.color !== origPuyo.color) {
                     // ぷよの色が違う
                     continue;
                 }
@@ -201,7 +200,7 @@ export class Stage {
                     }
                     // これらは消して良いので消すリストに追加する
                     this.erasingPuyoInfoList.push(
-                        ...sequencePuyoInfoList.map((info) => info.cell)
+                        ...sequencePuyoInfoList.map((info) => info.puyo)
                     );
                     erasedPuyoColor[puyoColor] = true;
                 }
@@ -210,7 +209,7 @@ export class Stage {
 
         // 消さないリストに入っていたぷよをメモリに復帰させる
         for (const info of existingPuyoInfoList) {
-            this.board[info.y][info.x] = info.cell;
+            this.board[info.y][info.x] = info.puyo;
         }
 
         if (this.erasingPuyoInfoList.length) {
