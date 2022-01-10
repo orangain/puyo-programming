@@ -12,8 +12,7 @@ export type PuyoOnBoard = {
 };
 
 type FallingPuyo = {
-    element: PuyoPosition;
-    position: number;
+    position: PuyoPosition;
     destination: number;
     falling: boolean;
 };
@@ -88,8 +87,7 @@ export class Stage {
                     this.board[dst][x] = cell;
                     // 落ちるリストに入れる
                     this.fallingPuyoList.push({
-                        element: cell.position,
-                        position: y * Config.puyoImgHeight,
+                        position: cell.position,
                         destination: dst * Config.puyoImgHeight,
                         falling: true,
                     });
@@ -108,20 +106,18 @@ export class Stage {
                 // すでに自由落下が終わっている
                 continue;
             }
-            let position = fallingPuyo.position;
-            position += Config.freeFallingSpeed;
-            if (position >= fallingPuyo.destination) {
+            let top = fallingPuyo.position.top;
+            top += Config.freeFallingSpeed;
+            if (top >= fallingPuyo.destination) {
                 // 自由落下終了
-                position = fallingPuyo.destination;
+                top = fallingPuyo.destination;
                 fallingPuyo.falling = false;
             } else {
                 // まだ落下しているぷよがあることを記録する
                 isFalling = true;
             }
-            // 新しい位置を保存する
-            fallingPuyo.position = position;
             // ぷよを動かす
-            fallingPuyo.element.top = position;
+            fallingPuyo.position.top = top;
         }
         return isFalling;
     }
