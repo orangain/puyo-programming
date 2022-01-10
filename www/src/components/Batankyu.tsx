@@ -2,10 +2,12 @@ import React from "react";
 import { Config } from "../config";
 
 type BatankyuProps = {
-    farmesFromGameOver: number;
+    framesFromGameOver: number;
 };
 
-export const Batankyu: React.VFC<BatankyuProps> = ({ farmesFromGameOver }) => {
+export const Batankyu: React.VFC<BatankyuProps> = ({
+    framesFromGameOver: farmesFromGameOver,
+}) => {
     const ratio = farmesFromGameOver / Config.gameOverFrame;
     const x =
         Math.cos(Math.PI / 2 + ratio * Math.PI * 2 * 10) * Config.puyoImgWidth;

@@ -58,7 +58,7 @@ export const Game: React.VFC = () => {
             )}
             <GameStage puyos={puyos} />
             {isBatankyu && (
-                <Batankyu farmesFromGameOver={frame - gameOverFrame} />
+                <Batankyu framesFromGameOver={frame - gameOverFrame} />
             )}
             <Scoreboard score={Score.score} />
         </div>
