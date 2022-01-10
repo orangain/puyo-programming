@@ -22,13 +22,15 @@ type PuyoInfo = {
 
 export class Stage {
     static stageElement: HTMLDivElement;
-    static zenkeshiImage: HTMLImageElement;
     static board: (null | PuyoOnBoard)[][];
     static puyoCount: number;
     static fallingPuyoList: FallingPuyo[];
     static eraseStartFrame: number;
     static erasingPuyoInfoList: PuyoInfo[];
     static erasingBlinkState: boolean;
+    static zenkeshiVisible: boolean;
+    static zenkeshiShowRatio: number;
+    static zenkeshiHideRatio: number;
 
     static initialize() {
         // HTML からステージの元となる要素を取得し、大きさを設定する
@@ -39,15 +41,6 @@ export class Stage {
             Config.puyoImgHeight * Config.stageRows + "px";
         stageElement.style.backgroundColor = Config.stageBackgroundColor;
         this.stageElement = stageElement;
-
-        const zenkeshiImage = document.getElementById(
-            "zenkeshi"
-        ) as HTMLImageElement;
-        zenkeshiImage.width = Config.puyoImgWidth * 6;
-        zenkeshiImage.style.position = "absolute";
-        zenkeshiImage.style.display = "none";
-        this.zenkeshiImage = zenkeshiImage;
-        stageElement.appendChild(zenkeshiImage);
 
         // メモリを準備する
         this.board = [];
@@ -267,18 +260,16 @@ export class Stage {
 
     static showZenkeshi() {
         // 全消しを表示する
-        this.zenkeshiImage.style.display = "block";
-        this.zenkeshiImage.style.opacity = "1";
+        this.zenkeshiVisible = true;
+        this.zenkeshiShowRatio = 0;
+        this.zenkeshiHideRatio = 0;
         const startTime = Date.now();
-        const startTop = Config.puyoImgHeight * Config.stageRows;
-        const endTop = (Config.puyoImgHeight * Config.stageRows) / 3;
         const animation = () => {
             const ratio = Math.min(
                 (Date.now() - startTime) / Config.zenkeshiDuration,
                 1
             );
-            this.zenkeshiImage.style.top =
-                (endTop - startTop) * ratio + startTop + "px";
+            this.zenkeshiShowRatio = ratio;
             if (ratio !== 1) {
                 requestAnimationFrame(animation);
             }
@@ -293,11 +284,11 @@ export class Stage {
                 (Date.now() - startTime) / Config.zenkeshiDuration,
                 1
             );
-            this.zenkeshiImage.style.opacity = String(1 - ratio);
+            this.zenkeshiHideRatio = ratio;
             if (ratio !== 1) {
                 requestAnimationFrame(animation);
             } else {
-                this.zenkeshiImage.style.display = "none";
+                this.zenkeshiVisible = false;
             }
         };
         animation();

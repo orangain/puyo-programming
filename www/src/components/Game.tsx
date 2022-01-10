@@ -7,6 +7,7 @@ import { Stage, PuyoOnBoard } from "../stage";
 import { Player } from "../player";
 import { Batankyu } from "./Batankyu";
 import { PuyoImage } from "../puyoimage";
+import { Zenkeshi } from "./Zenkeshi";
 
 // まずステージを整える
 const initialFrame = initialize();
@@ -58,6 +59,12 @@ export const Game: React.VFC = () => {
 
     return (
         <>
+            {Stage.zenkeshiVisible && (
+                <Zenkeshi
+                    showRatio={Stage.zenkeshiShowRatio}
+                    hideRatio={Stage.zenkeshiHideRatio}
+                />
+            )}
             <StageComponent puyos={puyos} />
             {isBatankyu && (
                 <Batankyu
