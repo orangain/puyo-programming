@@ -1,6 +1,7 @@
 import { Stage } from "./stage";
 import { Player } from "./player";
 import { Score } from "./score";
+import { Input } from "./input";
 
 type GameMode =
     | "start"
@@ -24,7 +25,7 @@ export function initialize(): number {
     // ステージを準備する
     Stage.initialize();
     // ユーザー操作の準備をする
-    Player.initialize();
+    Input.initialize();
     // スコア表示の準備をする
     Score.initialize();
     mode = "start";
