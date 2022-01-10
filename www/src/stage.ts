@@ -13,7 +13,7 @@ export type PuyoOnBoard = {
 
 type FallingPuyo = {
     position: PuyoPosition;
-    destination: number;
+    destinationTop: number;
     falling: boolean;
 };
 
@@ -88,7 +88,7 @@ export class Stage {
                     // 落ちるリストに入れる
                     this.fallingPuyoList.push({
                         position: cell.position,
-                        destination: dst * Config.puyoImgHeight,
+                        destinationTop: dst * Config.puyoImgHeight,
                         falling: true,
                     });
                     // 落ちるものがあったことを記録しておく
@@ -108,9 +108,9 @@ export class Stage {
             }
             let top = fallingPuyo.position.top;
             top += Config.freeFallingSpeed;
-            if (top >= fallingPuyo.destination) {
+            if (top >= fallingPuyo.destinationTop) {
                 // 自由落下終了
-                top = fallingPuyo.destination;
+                top = fallingPuyo.destinationTop;
                 fallingPuyo.falling = false;
             } else {
                 // まだ落下しているぷよがあることを記録する
