@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Puyo, Stage as StageComponent } from "./Stage";
+import { Stage as StageComponent } from "./Stage";
 import { Score as ScoreComponent } from "./Score";
 import { gameOverFrame, initialize, mode, tick } from "../game";
 import { Score } from "../score";
@@ -33,21 +33,17 @@ export const Game: React.VFC = () => {
 
     // console.log(frame)
 
-    const puyos: Puyo[] = [];
+    const puyos: PuyoOnBoard[] = [];
     Stage.board.forEach((line) =>
         line.forEach((cell) => {
             if (cell) {
-                puyos.push(puyoFromPuyoOnBoard(cell));
+                puyos.push(cell);
             }
         })
     );
-    puyos.push(...Player.getPlayingPuyoOnBoards().map(puyoFromPuyoOnBoard));
+    puyos.push(...Player.getPlayingPuyoOnBoards());
     if (Stage.erasingBlinkState) {
-        puyos.push(
-            ...Stage.erasingPuyoInfoList.map((info) =>
-                puyoFromPuyoOnBoard(info.cell)
-            )
-        );
+        puyos.push(...Stage.erasingPuyoInfoList.map((info) => info.cell));
     }
 
     const isBatankyu = mode === "batankyu";
@@ -76,12 +72,3 @@ export const Game: React.VFC = () => {
         </div>
     );
 };
-
-function puyoFromPuyoOnBoard(cell: PuyoOnBoard): Puyo {
-    return {
-        id: cell.puyoId,
-        color: cell.color,
-        x: cell.position.left,
-        y: cell.position.top,
-    };
-}

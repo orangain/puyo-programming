@@ -1,16 +1,10 @@
 import React from "react";
-import { Config, PuyoColor } from "../config";
+import { Config } from "../config";
 import { PuyoImage } from "./PuyoImage";
-
-export type Puyo = {
-    id: number;
-    color: PuyoColor;
-    x: number;
-    y: number;
-};
+import { PuyoOnBoard } from "../stage";
 
 export type StageProps = {
-    puyos: Puyo[];
+    puyos: PuyoOnBoard[];
 };
 
 export const Stage: React.VFC<StageProps> = ({ puyos }) => {
@@ -23,8 +17,8 @@ export const Stage: React.VFC<StageProps> = ({ puyos }) => {
                 backgroundImage: "url(img/puyo_2bg.png)",
             }}
         >
-            {puyos.map(({ id, ...puyo }) => (
-                <PuyoImage key={id} {...puyo} />
+            {puyos.map(({ puyoId, ...puyo }) => (
+                <PuyoImage key={puyoId} {...puyo} />
             ))}
         </div>
     );
