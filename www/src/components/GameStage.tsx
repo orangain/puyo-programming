@@ -3,11 +3,11 @@ import { Config } from "../config";
 import { PuyoImage } from "./PuyoImage";
 import { PuyoOnBoard } from "../puyo";
 
-export type StageProps = {
+export type GameStageProps = {
     puyos: PuyoOnBoard[];
 };
 
-export const Stage: React.VFC<StageProps> = ({ puyos }) => {
+export const GameStage: React.VFC<GameStageProps> = ({ puyos }) => {
     return (
         <div
             style={{

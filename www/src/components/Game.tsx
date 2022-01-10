@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Stage as StageComponent } from "./Stage";
+import { GameStage } from "./GameStage";
 import { Scoreboard } from "./Scoreboard";
 import { gameOverFrame, initialize, mode, tick } from "../game";
 import { Score } from "../score";
@@ -56,7 +56,7 @@ export const Game: React.VFC = () => {
                     hideRatio={Stage.zenkeshiHideRatio}
                 />
             )}
-            <StageComponent puyos={puyos} />
+            <GameStage puyos={puyos} />
             {isBatankyu && (
                 <Batankyu farmesFromGameOver={frame - gameOverFrame} />
             )}
