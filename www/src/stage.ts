@@ -1,16 +1,5 @@
-import { Config, PuyoColor } from "./config";
-
-type PuyoPosition = {
-    left: number;
-    top: number;
-};
-
-export type PuyoOnBoard = {
-    puyoId: number;
-    color: PuyoColor;
-    position: PuyoPosition;
-    hidden?: boolean;
-};
+import { Config } from "./config";
+import { PuyoOnBoard, PuyoColor, PuyoPosition } from "./puyo";
 
 type FallingPuyo = {
     position: PuyoPosition;

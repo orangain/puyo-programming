@@ -1,5 +1,6 @@
 import React from "react";
-import { Config, PuyoColor } from "../config";
+import { Config } from "../config";
+import { PuyoColor } from "../puyo";
 
 type PuyoImageProps = {
     color: PuyoColor;

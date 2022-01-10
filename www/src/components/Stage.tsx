@@ -1,7 +1,7 @@
 import React from "react";
 import { Config } from "../config";
 import { PuyoImage } from "./PuyoImage";
-import { PuyoOnBoard } from "../stage";
+import { PuyoOnBoard } from "../puyo";
 
 export type StageProps = {
     puyos: PuyoOnBoard[];

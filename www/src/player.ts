@@ -1,12 +1,8 @@
-import { Config, PuyoColor } from "./config";
-import { PuyoOnBoard, Stage } from "./stage";
+import { Config } from "./config";
+import { Stage } from "./stage";
 import { Score } from "./score";
 import { Input } from "./input";
-
-type PlayingPuyo = {
-    puyoId: number;
-    color: PuyoColor;
-};
+import { Puyo, PuyoColor, PuyoOnBoard } from "./puyo";
 
 type PuyoStatus = {
     x: number; // 中心ぷよの位置: 左から2列目
@@ -19,8 +15,8 @@ type PuyoStatus = {
 };
 
 export class Player {
-    private static centerPuyo: PlayingPuyo | null;
-    private static movablePuyo: PlayingPuyo | null;
+    private static centerPuyo: Puyo | null;
+    private static movablePuyo: Puyo | null;
     private static puyoStatus: PuyoStatus;
 
     private static groundFrame: number;

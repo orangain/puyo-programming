@@ -1,4 +1,4 @@
-export type PuyoColor = 1 | 2 | 3 | 4 | 5;
+import { PuyoColor } from "./puyo";
 
 export const Config = {
     fontHeight: 33,
