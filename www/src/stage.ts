@@ -9,6 +9,7 @@ export type PuyoOnBoard = {
     puyoId: number;
     color: PuyoColor;
     position: PuyoPosition;
+    hidden?: boolean;
 };
 
 type FallingPuyo = {
@@ -28,7 +29,7 @@ export class Stage {
     static fallingPuyoList: FallingPuyo[];
     static eraseStartFrame: number;
     static erasingPuyoInfoList: PuyoInfo[];
-    static erasingBlinkState: boolean;
+    static erasingPuyoIsHidden: boolean;
     static zenkeshiVisible: boolean;
     static zenkeshiShowRatio: number;
     static zenkeshiHideRatio: number;
@@ -48,6 +49,13 @@ export class Stage {
         return this.board
             .flat()
             .filter((cell) => cell !== null) as PuyoOnBoard[];
+    }
+
+    static getErasingPuyoOnBoards(): PuyoOnBoard[] {
+        return this.erasingPuyoInfoList.map((info) => ({
+            ...info.cell,
+            hidden: this.erasingPuyoIsHidden,
+        }));
     }
 
     // メモリに puyo をセットする
@@ -227,19 +235,19 @@ export class Stage {
         const ratio = elapsedFrame / Config.eraseAnimationDuration;
         if (ratio > 1) {
             // アニメーションを終了する
-            this.erasingBlinkState = false;
+            this.erasingPuyoInfoList = [];
             return false;
         } else if (ratio > 0.75) {
-            this.erasingBlinkState = true;
+            this.erasingPuyoIsHidden = false;
             return true;
         } else if (ratio > 0.5) {
-            this.erasingBlinkState = false;
+            this.erasingPuyoIsHidden = true;
             return true;
         } else if (ratio > 0.25) {
-            this.erasingBlinkState = true;
+            this.erasingPuyoIsHidden = false;
             return true;
         } else {
-            this.erasingBlinkState = false;
+            this.erasingPuyoIsHidden = true;
             return true;
         }
     }

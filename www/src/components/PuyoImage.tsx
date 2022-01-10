@@ -7,14 +7,20 @@ type PuyoImageProps = {
         left: number;
         top: number;
     };
+    hidden?: boolean;
 };
 
-export const PuyoImage: React.VFC<PuyoImageProps> = ({ color, position }) => {
+export const PuyoImage: React.VFC<PuyoImageProps> = ({
+    color,
+    position,
+    hidden,
+}) => {
     return (
         <img
             src={imagePath(color)}
             style={{
                 position: "absolute",
+                visibility: hidden ? "hidden" : "visible",
                 left: position.left,
                 top: position.top,
                 width: Math.floor(Config.puyoImgWidth),
