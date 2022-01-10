@@ -41,12 +41,7 @@ export const Game: React.VFC = () => {
             }
         })
     );
-    if (Player.centerPuyoOnBoard) {
-        puyos.push(puyoFromPuyoOnBoard(Player.centerPuyoOnBoard));
-    }
-    if (Player.movablePuyoOnBoard) {
-        puyos.push(puyoFromPuyoOnBoard(Player.movablePuyoOnBoard));
-    }
+    puyos.push(...Player.getPlayingPuyoOnBoards().map(puyoFromPuyoOnBoard));
     if (Stage.erasingBlinkState) {
         puyos.push(
             ...Stage.erasingPuyoInfoList.map((info) =>
