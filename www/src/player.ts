@@ -238,6 +238,7 @@ export class Player {
                 if (
                     y + 1 < 0 ||
                     x - 1 < 0 ||
+                    y + 1 >= Config.stageRows ||
                     x - 1 >= Config.stageCols ||
                     Stage.board[y + 1][x - 1]
                 ) {
