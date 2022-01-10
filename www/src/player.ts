@@ -196,8 +196,6 @@ export class Player {
             puyo: movablePuyo,
             element: PuyoImage.getPuyo(movablePuyo),
         };
-        Stage.stageElement.appendChild(this.centerPuyoOnBoard.element);
-        Stage.stageElement.appendChild(this.movablePuyoOnBoard.element);
         // ぷよの初期配置を定める
         this.puyoStatus = {
             x: 2, // 中心ぷよの位置: 左から2列目
@@ -562,8 +560,6 @@ export class Player {
             Stage.puyoCount++;
         }
         // 操作用に作成したぷよ画像を消す
-        Stage.stageElement.removeChild(this.centerPuyoOnBoard.element);
-        Stage.stageElement.removeChild(this.movablePuyoOnBoard.element);
         this.centerPuyoOnBoard = null;
         this.movablePuyoOnBoard = null;
     }

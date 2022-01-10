@@ -1,5 +1,12 @@
 import { Config, PuyoColor } from "./config";
 
+export type VirtualPuyoElement = {
+    style: {
+        left: string;
+        top: string;
+    };
+};
+
 export class PuyoImage {
     static puyoImages: HTMLImageElement[];
     static gameOverFrame: number;
@@ -18,7 +25,7 @@ export class PuyoImage {
         }
     }
 
-    static getPuyo(index: PuyoColor): HTMLImageElement {
+    static getPuyo(index: PuyoColor): VirtualPuyoElement {
         const image = this.puyoImages[index - 1].cloneNode(
             true
         ) as HTMLImageElement;

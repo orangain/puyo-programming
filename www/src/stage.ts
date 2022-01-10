@@ -1,14 +1,14 @@
 import { Config, PuyoColor } from "./config";
-import { PuyoImage } from "./puyoimage";
+import { PuyoImage, VirtualPuyoElement } from "./puyoimage";
 
 export type PuyoOnBoard = {
     puyoId: number;
     puyo: PuyoColor;
-    element: HTMLImageElement;
+    element: VirtualPuyoElement;
 };
 
 type FallingPuyo = {
-    element: HTMLImageElement;
+    element: VirtualPuyoElement;
     position: number;
     destination: number;
     falling: boolean;
@@ -21,7 +21,6 @@ type PuyoInfo = {
 };
 
 export class Stage {
-    static stageElement: HTMLDivElement;
     static board: (null | PuyoOnBoard)[][];
     static puyoCount: number;
     static fallingPuyoList: FallingPuyo[];
@@ -33,15 +32,6 @@ export class Stage {
     static zenkeshiHideRatio: number;
 
     static initialize() {
-        // HTML からステージの元となる要素を取得し、大きさを設定する
-        const stageElement = document.getElementById("stage") as HTMLDivElement;
-        stageElement.style.width =
-            Config.puyoImgWidth * Config.stageCols + "px";
-        stageElement.style.height =
-            Config.puyoImgHeight * Config.stageRows + "px";
-        stageElement.style.backgroundColor = Config.stageBackgroundColor;
-        this.stageElement = stageElement;
-
         // メモリを準備する
         this.board = [];
         let puyoCount = 0;
@@ -60,7 +50,6 @@ export class Stage {
         const puyoImage = PuyoImage.getPuyo(puyo);
         puyoImage.style.left = x * Config.puyoImgWidth + "px";
         puyoImage.style.top = y * Config.puyoImgHeight + "px";
-        this.stageElement.appendChild(puyoImage);
         // メモリにセットする
         this.board[y][x] = {
             puyoId,
@@ -237,10 +226,6 @@ export class Stage {
         const ratio = elapsedFrame / Config.eraseAnimationDuration;
         if (ratio > 1) {
             // アニメーションを終了する
-            for (const info of this.erasingPuyoInfoList) {
-                var element = info.cell.element;
-                this.stageElement.removeChild(element);
-            }
             this.erasingBlinkState = false;
             return false;
         } else if (ratio > 0.75) {
