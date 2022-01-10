@@ -10,7 +10,7 @@ export type PuyoPosition = {
     top: number;
 };
 
-export type PuyoOnBoard = Puyo & {
+export type PuyoOnStage = Puyo & {
     position: PuyoPosition;
     hidden?: boolean;
 };

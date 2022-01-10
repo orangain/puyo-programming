@@ -34,9 +34,9 @@ export const Game: React.VFC = () => {
     // console.log(frame)
 
     const puyos = [
-        ...Stage.getPuyoOnBoards(),
-        ...Player.getPlayingPuyoOnBoards(),
-        ...Stage.getErasingPuyoOnBoards(),
+        ...Stage.getFixedPuyos(),
+        ...Stage.getErasingPuyos(),
+        ...Player.getPlayingPuyos(),
     ];
     const isBatankyu = mode === "batankyu";
 

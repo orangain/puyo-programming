@@ -1,10 +1,10 @@
 import React from "react";
 import { Config } from "../config";
 import { PuyoImage } from "./PuyoImage";
-import { PuyoOnBoard } from "../puyo";
+import { PuyoOnStage } from "../puyo";
 
 export type GameStageProps = {
-    puyos: PuyoOnBoard[];
+    puyos: PuyoOnStage[];
 };
 
 export const GameStage: React.VFC<GameStageProps> = ({ puyos }) => {

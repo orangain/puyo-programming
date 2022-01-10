@@ -68,7 +68,7 @@ export function tick(frame: number): number {
                 Stage.hideZenkeshi();
             } else {
                 if (
-                    Stage.getPuyoOnBoards().length === 0 &&
+                    Stage.getFixedPuyos().length === 0 &&
                     combinationCount > 0
                 ) {
                     // 全消しの処理をする

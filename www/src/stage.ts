@@ -1,5 +1,5 @@
 import { Config } from "./config";
-import { PuyoOnBoard, PuyoColor, PuyoPosition } from "./puyo";
+import { PuyoOnStage, PuyoColor, PuyoPosition } from "./puyo";
 
 type FallingPuyo = {
     position: PuyoPosition;
@@ -10,11 +10,11 @@ type FallingPuyo = {
 type PuyoInfo = {
     x: number;
     y: number;
-    cell: PuyoOnBoard;
+    cell: PuyoOnStage;
 };
 
 export class Stage {
-    static board: (null | PuyoOnBoard)[][];
+    static board: (null | PuyoOnStage)[][];
     private static fallingPuyoList: FallingPuyo[];
     private static eraseStartFrame: number;
     private static erasingPuyoInfoList: PuyoInfo[];
@@ -36,13 +36,13 @@ export class Stage {
         this.erasingPuyoInfoList = [];
     }
 
-    static getPuyoOnBoards(): PuyoOnBoard[] {
+    static getFixedPuyos(): PuyoOnStage[] {
         return this.board
             .flat()
-            .filter((cell) => cell !== null) as PuyoOnBoard[];
+            .filter((cell) => cell !== null) as PuyoOnStage[];
     }
 
-    static getErasingPuyoOnBoards(): PuyoOnBoard[] {
+    static getErasingPuyos(): PuyoOnStage[] {
         return this.erasingPuyoInfoList.map((info) => ({
             ...info.cell,
             hidden: this.erasingPuyoIsHidden,

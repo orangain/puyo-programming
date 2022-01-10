@@ -2,7 +2,7 @@ import { Config } from "./config";
 import { Stage } from "./stage";
 import { Score } from "./score";
 import { Input } from "./input";
-import { Puyo, PuyoColor, PuyoOnBoard } from "./puyo";
+import { Puyo, PuyoColor, PuyoOnStage } from "./puyo";
 
 type PuyoStatus = {
     x: number; // 中心ぷよの位置: 左から2列目
@@ -53,7 +53,7 @@ export class Player {
         return true;
     }
 
-    static getPlayingPuyoOnBoards(): PuyoOnBoard[] {
+    static getPlayingPuyos(): PuyoOnStage[] {
         if (!this.centerPuyo || !this.movablePuyo) {
             return [];
         }
@@ -379,7 +379,7 @@ export class Player {
 
     static fix() {
         if (!this.centerPuyo || !this.movablePuyo) {
-            throw new Error("centerPuyoOnBoard or movablePuyoOnBoard is null");
+            throw new Error("centerPuyo or movablePuyo is null");
         }
         // 現在のぷよをステージ上に配置する
         const x = this.puyoStatus.x;
