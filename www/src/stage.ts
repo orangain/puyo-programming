@@ -17,7 +17,7 @@ export class Stage {
     static board: (null | PuyoOnStage)[][];
     private static fallingPuyoList: FallingPuyo[];
     private static eraseStartFrame: number;
-    private static erasingPuyoInfoList: PuyoInfo[];
+    private static erasingPuyoInfoList: PuyoOnStage[];
     private static erasingPuyoIsHidden: boolean;
     static zenkeshiVisible: boolean;
     static zenkeshiShowRatio: number;
@@ -43,8 +43,8 @@ export class Stage {
     }
 
     static getErasingPuyos(): PuyoOnStage[] {
-        return this.erasingPuyoInfoList.map((info) => ({
-            ...info.cell,
+        return this.erasingPuyoInfoList.map((puyo) => ({
+            ...puyo,
             hidden: this.erasingPuyoIsHidden,
         }));
     }
@@ -200,7 +200,9 @@ export class Stage {
                         throw new Error("puyoColor must be truthy");
                     }
                     // これらは消して良いので消すリストに追加する
-                    this.erasingPuyoInfoList.push(...sequencePuyoInfoList);
+                    this.erasingPuyoInfoList.push(
+                        ...sequencePuyoInfoList.map((info) => info.cell)
+                    );
                     erasedPuyoColor[puyoColor] = true;
                 }
             }
