@@ -34,13 +34,7 @@ export const Game: React.VFC = () => {
     // console.log(frame)
 
     const puyos: PuyoOnBoard[] = [];
-    Stage.board.forEach((line) =>
-        line.forEach((cell) => {
-            if (cell) {
-                puyos.push(cell);
-            }
-        })
-    );
+    puyos.push(...Stage.getPuyoOnBoards());
     puyos.push(...Player.getPlayingPuyoOnBoards());
     if (Stage.erasingBlinkState) {
         puyos.push(...Stage.erasingPuyoInfoList.map((info) => info.cell));

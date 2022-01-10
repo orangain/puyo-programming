@@ -47,6 +47,12 @@ export class Stage {
         this.puyoCount = puyoCount;
     }
 
+    static getPuyoOnBoards(): PuyoOnBoard[] {
+        return this.board
+            .flat()
+            .filter((cell) => cell !== null) as PuyoOnBoard[];
+    }
+
     // メモリに puyo をセットする
     static setPuyo(x: number, y: number, puyo: PuyoColor, puyoId: number) {
         // メモリにセットする
