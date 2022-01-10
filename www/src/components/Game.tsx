@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Stage as StageComponent } from "./Stage";
-import { Score as ScoreComponent } from "./Score";
+import { Scoreboard } from "./Scoreboard";
 import { gameOverFrame, initialize, mode, tick } from "../game";
 import { Score } from "../score";
 import { Stage } from "../stage";
@@ -60,7 +60,7 @@ export const Game: React.VFC = () => {
             {isBatankyu && (
                 <Batankyu farmesFromGameOver={frame - gameOverFrame} />
             )}
-            <ScoreComponent score={Score.score} />
+            <Scoreboard score={Score.score} />
         </div>
     );
 };

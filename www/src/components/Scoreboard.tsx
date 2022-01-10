@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { Config } from "../config";
 
-type ScoreProps = {
+type ScoreboardProps = {
     score: number;
 };
 
@@ -13,7 +13,7 @@ const maxDigits = Math.floor(
     (Config.stageCols * Config.puyoImgWidth) / digitWidth
 );
 
-export const Score: React.VFC<ScoreProps> = ({ score }) => {
+export const Scoreboard: React.VFC<ScoreboardProps> = ({ score }) => {
     const digits = useMemo(() => splitIntoDigits(score), [score]);
     return (
         <div
