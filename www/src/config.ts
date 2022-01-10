@@ -23,7 +23,7 @@ export const Config = {
     playerMoveFrame: 10, // 左右移動に消費するフレーム数
     playerRotateFrame: 10, // 回転に消費するフレーム数
 
-    zenkeshiDuration: 150, // 全消し時のアニメーションミリセカンド
+    zenkeshiAnimationFrame: 9, // 全消し時のアニメーションのフレーム数
     gameOverFrame: 3000, // ゲームオーバー演出のサイクルフレーム
 };
 

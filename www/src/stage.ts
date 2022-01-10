@@ -13,15 +13,19 @@ type PuyoInfo = {
     puyo: PuyoOnStage;
 };
 
+type ZenkeshiAnimationState = {
+    showRatio: number;
+    hideRatio: number;
+};
+
 export class Stage {
     static board: (null | PuyoOnStage)[][];
     private static fallingPuyoList: FallingPuyo[];
     private static eraseStartFrame: number;
     private static erasingPuyoInfoList: PuyoOnStage[];
     private static erasingPuyoIsHidden: boolean;
-    static zenkeshiVisible: boolean;
-    static zenkeshiShowRatio: number;
-    static zenkeshiHideRatio: number;
+    private static zenkeshiShowStartFrame: number | null;
+    private static zenkeshiHideStartFrame: number | null;
 
     static initialize() {
         // メモリを準備する
@@ -34,6 +38,8 @@ export class Stage {
         }
         this.fallingPuyoList = [];
         this.erasingPuyoInfoList = [];
+        this.zenkeshiShowStartFrame = null;
+        this.zenkeshiHideStartFrame = null;
     }
 
     static getFixedPuyos(): PuyoOnStage[] {
@@ -47,6 +53,33 @@ export class Stage {
             ...puyo,
             hidden: this.erasingPuyoIsHidden,
         }));
+    }
+
+    static getZenkeshiAnimationState(
+        frame: number
+    ): ZenkeshiAnimationState | null {
+        if (!this.zenkeshiShowStartFrame) {
+            return null;
+        }
+        const showRatio = Math.min(
+            (frame - this.zenkeshiShowStartFrame) /
+                Config.zenkeshiAnimationFrame,
+            1
+        );
+        const hideRatio =
+            this.zenkeshiHideStartFrame !== null
+                ? Math.min(
+                      (frame - this.zenkeshiHideStartFrame) /
+                          Config.zenkeshiAnimationFrame,
+                      1
+                  )
+                : 0;
+
+        if (hideRatio === 1) {
+            return null;
+        }
+
+        return { showRatio, hideRatio };
     }
 
     // メモリに puyo をセットする
@@ -245,40 +278,14 @@ export class Stage {
         }
     }
 
-    static showZenkeshi() {
+    static showZenkeshi(frame: number) {
         // 全消しを表示する
-        this.zenkeshiVisible = true;
-        this.zenkeshiShowRatio = 0;
-        this.zenkeshiHideRatio = 0;
-        const startTime = Date.now();
-        const animation = () => {
-            const ratio = Math.min(
-                (Date.now() - startTime) / Config.zenkeshiDuration,
-                1
-            );
-            this.zenkeshiShowRatio = ratio;
-            if (ratio !== 1) {
-                requestAnimationFrame(animation);
-            }
-        };
-        animation();
+        this.zenkeshiShowStartFrame = frame;
+        this.zenkeshiHideStartFrame = null;
     }
 
-    static hideZenkeshi() {
+    static hideZenkeshi(frame: number) {
         // 全消しを消去する
-        const startTime = Date.now();
-        const animation = () => {
-            const ratio = Math.min(
-                (Date.now() - startTime) / Config.zenkeshiDuration,
-                1
-            );
-            this.zenkeshiHideRatio = ratio;
-            if (ratio !== 1) {
-                requestAnimationFrame(animation);
-            } else {
-                this.zenkeshiVisible = false;
-            }
-        };
-        animation();
+        this.zenkeshiHideStartFrame = frame;
     }
 }

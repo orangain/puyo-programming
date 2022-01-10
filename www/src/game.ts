@@ -65,14 +65,14 @@ export function tick(frame: number): number {
                     eraseInfo.piece,
                     eraseInfo.color
                 );
-                Stage.hideZenkeshi();
+                Stage.hideZenkeshi(frame);
             } else {
                 if (
                     Stage.getFixedPuyos().length === 0 &&
                     combinationCount > 0
                 ) {
                     // 全消しの処理をする
-                    Stage.showZenkeshi();
+                    Stage.showZenkeshi(frame);
                     Score.addZenkeshiScore();
                 }
                 combinationCount = 0;

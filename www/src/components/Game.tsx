@@ -39,6 +39,7 @@ export const Game: React.VFC = () => {
         ...Player.getPlayingPuyos(),
     ];
     const isBatankyu = mode === "batankyu";
+    const zenkeshiAnimationState = Stage.getZenkeshiAnimationState(frame);
 
     return (
         <div
@@ -50,12 +51,7 @@ export const Game: React.VFC = () => {
                 background: "url(img/puyo_2bg.png)",
             }}
         >
-            {Stage.zenkeshiVisible && (
-                <Zenkeshi
-                    showRatio={Stage.zenkeshiShowRatio}
-                    hideRatio={Stage.zenkeshiHideRatio}
-                />
-            )}
+            {zenkeshiAnimationState && <Zenkeshi {...zenkeshiAnimationState} />}
             <GameStage puyos={puyos} />
             {isBatankyu && (
                 <Batankyu framesFromGameOver={frame - gameOverFrame} />
