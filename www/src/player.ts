@@ -158,7 +158,7 @@ export class Player {
             return "fix";
         }
         if (Input.keyStatus.right || Input.keyStatus.left) {
-            // 左右のの確認をする
+            // 左右の確認をする
             const cx = Input.keyStatus.right ? 1 : -1;
             const x = this.puyoStatus.x;
             const y = this.puyoStatus.y;
