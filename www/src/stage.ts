@@ -221,6 +221,7 @@ export class Stage {
         }
         return null;
     }
+
     // 消すアニメーションをする
     static erasing(frame: number) {
         const elapsedFrame = frame - this.eraseStartFrame;
@@ -262,6 +263,7 @@ export class Stage {
         };
         animation();
     }
+
     static hideZenkeshi() {
         // 全消しを消去する
         const startTime = Date.now();

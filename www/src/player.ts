@@ -149,6 +149,7 @@ export class Player {
             }
         }
     }
+
     static playing(frame: number) {
         // まず自由落下を確認する
         // 下キーが押されていた場合、それ込みで自由落下させる
@@ -345,6 +346,7 @@ export class Player {
         }
         return "playing";
     }
+
     static moving(frame: number) {
         // 移動中も自然落下はさせる
         this.falling(false);
@@ -359,6 +361,7 @@ export class Player {
         }
         return true;
     }
+
     static rotating(frame: number) {
         // 回転中も自然落下はさせる
         this.falling(false);
