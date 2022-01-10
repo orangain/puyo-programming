@@ -12,7 +12,11 @@ export class Score {
         this.score = 0;
     }
 
-    static calculateScore(rensa: number, piece: number, color: number) {
+    static addDownScore() {
+        this.addScore(1);
+    }
+
+    static addErasingScore(rensa: number, piece: number, color: number) {
         rensa = Math.min(rensa, Score.rensaBonus.length - 1);
         piece = Math.min(piece, Score.pieceBonus.length - 1);
         color = Math.min(color, Score.colorBonus.length - 1);
@@ -26,7 +30,11 @@ export class Score {
         this.addScore(scale * piece * 10);
     }
 
-    static addScore(score: number) {
+    static addZenkeshiScore() {
+        this.addScore(3600);
+    }
+
+    private static addScore(score: number) {
         this.score += score;
     }
 }

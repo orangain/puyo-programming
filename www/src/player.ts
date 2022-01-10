@@ -128,7 +128,7 @@ export class Player {
                 // ブロックの境を超えたので、再チェックする
                 // 下キーが押されていたら、得点を加算する
                 if (isDownPressed) {
-                    Score.addScore(1);
+                    Score.addDownScore();
                 }
                 y += 1;
                 this.puyoStatus.y = y;

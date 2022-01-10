@@ -60,7 +60,7 @@ export function tick(frame: number): number {
                 mode = "erasing";
                 combinationCount++;
                 // 得点を計算する
-                Score.calculateScore(
+                Score.addErasingScore(
                     combinationCount,
                     eraseInfo.piece,
                     eraseInfo.color
@@ -73,7 +73,7 @@ export function tick(frame: number): number {
                 ) {
                     // 全消しの処理をする
                     Stage.showZenkeshi();
-                    Score.addScore(3600);
+                    Score.addZenkeshiScore();
                 }
                 combinationCount = 0;
                 // 消せなかったら、新しいぷよを登場させる
