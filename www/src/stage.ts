@@ -48,8 +48,8 @@ export class Stage {
     static setPuyo(x: number, y: number, puyo: PuyoColor, puyoId: number) {
         // 画像を作成し配置する
         const puyoImage = PuyoImage.getPuyo();
-        puyoImage.style.left = x * Config.puyoImgWidth + "px";
-        puyoImage.style.top = y * Config.puyoImgHeight + "px";
+        puyoImage.left = x * Config.puyoImgWidth;
+        puyoImage.top = y * Config.puyoImgHeight;
         // メモリにセットする
         this.board[y][x] = {
             puyoId,
@@ -118,7 +118,7 @@ export class Stage {
             // 新しい位置を保存する
             fallingPuyo.position = position;
             // ぷよを動かす
-            fallingPuyo.element.style.top = position + "px";
+            fallingPuyo.element.top = position;
         }
         return isFalling;
     }

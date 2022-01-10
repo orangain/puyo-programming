@@ -87,7 +87,7 @@ function puyoFromPuyoOnBoard(cell: PuyoOnBoard): Puyo {
     return {
         id: cell.puyoId,
         color: cell.color,
-        x: parseFloat(cell.element.style.left),
-        y: parseFloat(cell.element.style.top),
+        x: cell.element.left,
+        y: cell.element.top,
     };
 }

@@ -217,8 +217,8 @@ export class Player {
         if (!this.centerPuyoOnBoard || !this.movablePuyoOnBoard) {
             throw new Error("centerPuyoOnBoard or movablePuyoOnBoard is null");
         }
-        this.centerPuyoOnBoard.element.style.left = this.puyoStatus.left + "px";
-        this.centerPuyoOnBoard.element.style.top = this.puyoStatus.top + "px";
+        this.centerPuyoOnBoard.element.left = this.puyoStatus.left;
+        this.centerPuyoOnBoard.element.top = this.puyoStatus.top;
         const x =
             this.puyoStatus.left +
             Math.cos((this.puyoStatus.rotation * Math.PI) / 180) *
@@ -227,8 +227,8 @@ export class Player {
             this.puyoStatus.top -
             Math.sin((this.puyoStatus.rotation * Math.PI) / 180) *
                 Config.puyoImgHeight;
-        this.movablePuyoOnBoard.element.style.left = x + "px";
-        this.movablePuyoOnBoard.element.style.top = y + "px";
+        this.movablePuyoOnBoard.element.left = x;
+        this.movablePuyoOnBoard.element.top = y;
     }
 
     static falling(isDownPressed: boolean) {

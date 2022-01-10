@@ -1,19 +1,15 @@
 import { PuyoColor } from "./config";
 
 export type VirtualPuyoElement = {
-    style: {
-        left: string;
-        top: string;
-    };
+    left: number;
+    top: number;
 };
 
 export class PuyoImage {
     static getPuyo(): VirtualPuyoElement {
         return {
-            style: {
-                left: "0",
-                top: "0",
-            },
+            left: 0,
+            top: 0,
         };
     }
 }
