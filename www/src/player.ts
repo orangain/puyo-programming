@@ -19,18 +19,18 @@ type PuyoStatus = {
 };
 
 export class Player {
-    static centerPuyo: PlayingPuyo | null;
-    static movablePuyo: PlayingPuyo | null;
-    static puyoStatus: PuyoStatus;
+    private static centerPuyo: PlayingPuyo | null;
+    private static movablePuyo: PlayingPuyo | null;
+    private static puyoStatus: PuyoStatus;
 
-    static groundFrame: number;
+    private static groundFrame: number;
 
-    static actionStartFrame: number;
-    static moveSource: number;
-    static moveDestination: number;
-    static rotateBeforeLeft: number;
-    static rotateAfterLeft: number;
-    static rotateFromRotation: number;
+    private static actionStartFrame: number;
+    private static moveSource: number;
+    private static moveDestination: number;
+    private static rotateBeforeLeft: number;
+    private static rotateAfterLeft: number;
+    private static rotateFromRotation: number;
 
     //ぷよ設置確認
     static createNewPuyo() {
@@ -101,7 +101,7 @@ export class Player {
         ];
     }
 
-    static falling(isDownPressed: boolean) {
+    private static falling(isDownPressed: boolean) {
         // 現状の場所の下にブロックがあるかどうか確認する
         let isBlocked = false;
         let x = this.puyoStatus.x;

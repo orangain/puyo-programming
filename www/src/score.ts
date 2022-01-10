@@ -1,12 +1,12 @@
 export class Score {
     static score: number;
 
-    static rensaBonus = [
+    private static rensaBonus = [
         0, 8, 16, 32, 64, 96, 128, 160, 192, 224, 256, 288, 320, 352, 384, 416,
         448, 480, 512, 544, 576, 608, 640, 672,
     ];
-    static pieceBonus = [0, 0, 0, 0, 2, 3, 4, 5, 6, 7, 10, 10];
-    static colorBonus = [0, 0, 3, 6, 12, 24];
+    private static pieceBonus = [0, 0, 0, 0, 2, 3, 4, 5, 6, 7, 10, 10];
+    private static colorBonus = [0, 0, 3, 6, 12, 24];
 
     static initialize() {
         this.score = 0;

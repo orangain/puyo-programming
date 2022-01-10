@@ -26,10 +26,10 @@ type PuyoInfo = {
 
 export class Stage {
     static board: (null | PuyoOnBoard)[][];
-    static fallingPuyoList: FallingPuyo[];
-    static eraseStartFrame: number;
-    static erasingPuyoInfoList: PuyoInfo[];
-    static erasingPuyoIsHidden: boolean;
+    private static fallingPuyoList: FallingPuyo[];
+    private static eraseStartFrame: number;
+    private static erasingPuyoInfoList: PuyoInfo[];
+    private static erasingPuyoIsHidden: boolean;
     static zenkeshiVisible: boolean;
     static zenkeshiShowRatio: number;
     static zenkeshiHideRatio: number;
@@ -43,6 +43,8 @@ export class Stage {
                 this.board[y][x] = null;
             }
         }
+        this.fallingPuyoList = [];
+        this.erasingPuyoInfoList = [];
     }
 
     static getPuyoOnBoards(): PuyoOnBoard[] {
@@ -288,5 +290,3 @@ export class Stage {
         animation();
     }
 }
-Stage.fallingPuyoList = [];
-Stage.erasingPuyoInfoList = [];
