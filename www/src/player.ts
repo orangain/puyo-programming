@@ -224,8 +224,6 @@ export class Player {
             // 回せるかどうかは後で確認。まわすぞ
             const x = this.puyoStatus.x;
             const y = this.puyoStatus.y;
-            const mx = x + this.puyoStatus.dx;
-            const my = y + this.puyoStatus.dy;
             const rotation = this.puyoStatus.rotation;
             let canRotate = true;
 
