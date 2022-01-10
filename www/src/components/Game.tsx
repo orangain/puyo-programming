@@ -6,7 +6,6 @@ import { Score } from "../score";
 import { Stage, PuyoOnBoard } from "../stage";
 import { Player } from "../player";
 import { Batankyu } from "./Batankyu";
-import { PuyoImage } from "../puyoimage";
 import { Zenkeshi } from "./Zenkeshi";
 import { Config } from "../config";
 
@@ -87,7 +86,7 @@ function puyoFromPuyoOnBoard(cell: PuyoOnBoard): Puyo {
     return {
         id: cell.puyoId,
         color: cell.color,
-        x: cell.element.left,
-        y: cell.element.top,
+        x: cell.position.left,
+        y: cell.position.top,
     };
 }

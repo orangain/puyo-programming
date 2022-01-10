@@ -1,14 +1,18 @@
 import { Config, PuyoColor } from "./config";
-import { PuyoImage, VirtualPuyoElement } from "./puyoimage";
+
+type PuyoPosition = {
+    left: number;
+    top: number;
+};
 
 export type PuyoOnBoard = {
     puyoId: number;
     color: PuyoColor;
-    element: VirtualPuyoElement;
+    position: PuyoPosition;
 };
 
 type FallingPuyo = {
-    element: VirtualPuyoElement;
+    element: PuyoPosition;
     position: number;
     destination: number;
     falling: boolean;
@@ -44,17 +48,16 @@ export class Stage {
         this.puyoCount = puyoCount;
     }
 
-    // 画面とメモリ両方に puyo をセットする
+    // メモリに puyo をセットする
     static setPuyo(x: number, y: number, puyo: PuyoColor, puyoId: number) {
-        // 画像を作成し配置する
-        const puyoImage = PuyoImage.getPuyo();
-        puyoImage.left = x * Config.puyoImgWidth;
-        puyoImage.top = y * Config.puyoImgHeight;
         // メモリにセットする
         this.board[y][x] = {
             puyoId,
             color: puyo,
-            element: puyoImage,
+            position: {
+                left: x * Config.puyoImgWidth,
+                top: y * Config.puyoImgHeight,
+            },
         };
     }
 
@@ -85,7 +88,7 @@ export class Stage {
                     this.board[dst][x] = cell;
                     // 落ちるリストに入れる
                     this.fallingPuyoList.push({
-                        element: cell.element,
+                        element: cell.position,
                         position: y * Config.puyoImgHeight,
                         destination: dst * Config.puyoImgHeight,
                         falling: true,

@@ -1,6 +1,5 @@
 import { Config, PuyoColor } from "./config";
 import { PuyoOnBoard, Stage } from "./stage";
-import { PuyoImage } from "./puyoimage";
 import { Score } from "./score";
 
 type PuyoStatus = {
@@ -189,12 +188,18 @@ export class Player {
         this.centerPuyoOnBoard = {
             puyoId: generatePuyoId(),
             color: centerPuyoColor,
-            element: PuyoImage.getPuyo(),
+            position: {
+                left: 0,
+                top: 0,
+            },
         };
         this.movablePuyoOnBoard = {
             puyoId: generatePuyoId(),
             color: movablePuyoColor,
-            element: PuyoImage.getPuyo(),
+            position: {
+                left: 0,
+                top: 0,
+            },
         };
         // ぷよの初期配置を定める
         this.puyoStatus = {
@@ -217,8 +222,8 @@ export class Player {
         if (!this.centerPuyoOnBoard || !this.movablePuyoOnBoard) {
             throw new Error("centerPuyoOnBoard or movablePuyoOnBoard is null");
         }
-        this.centerPuyoOnBoard.element.left = this.puyoStatus.left;
-        this.centerPuyoOnBoard.element.top = this.puyoStatus.top;
+        this.centerPuyoOnBoard.position.left = this.puyoStatus.left;
+        this.centerPuyoOnBoard.position.top = this.puyoStatus.top;
         const x =
             this.puyoStatus.left +
             Math.cos((this.puyoStatus.rotation * Math.PI) / 180) *
@@ -227,8 +232,8 @@ export class Player {
             this.puyoStatus.top -
             Math.sin((this.puyoStatus.rotation * Math.PI) / 180) *
                 Config.puyoImgHeight;
-        this.movablePuyoOnBoard.element.left = x;
-        this.movablePuyoOnBoard.element.top = y;
+        this.movablePuyoOnBoard.position.left = x;
+        this.movablePuyoOnBoard.position.top = y;
     }
 
     static falling(isDownPressed: boolean) {

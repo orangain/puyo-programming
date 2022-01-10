@@ -1,4 +1,3 @@
-import { PuyoImage } from "./puyoimage";
 import { Stage } from "./stage";
 import { Player } from "./player";
 import { Score } from "./score";
