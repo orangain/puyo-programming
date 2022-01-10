@@ -86,7 +86,7 @@ export const Game: React.VFC = () => {
 function puyoFromPuyoOnBoard(cell: PuyoOnBoard): Puyo {
     return {
         id: cell.puyoId,
-        color: cell.puyo,
+        color: cell.color,
         x: parseFloat(cell.element.style.left),
         y: parseFloat(cell.element.style.top),
     };

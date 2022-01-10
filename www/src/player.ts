@@ -181,19 +181,19 @@ export class Player {
             1,
             Math.min(5, Config.puyoColors)
         ) as PuyoColor;
-        const centerPuyo = (Math.floor(Math.random() * puyoColors) +
+        const centerPuyoColor = (Math.floor(Math.random() * puyoColors) +
             1) as PuyoColor;
-        const movablePuyo = (Math.floor(Math.random() * puyoColors) +
+        const movablePuyoColor = (Math.floor(Math.random() * puyoColors) +
             1) as PuyoColor;
         // 新しいぷよ画像を作成する
         this.centerPuyoOnBoard = {
             puyoId: generatePuyoId(),
-            puyo: centerPuyo,
+            color: centerPuyoColor,
             element: PuyoImage.getPuyo(),
         };
         this.movablePuyoOnBoard = {
             puyoId: generatePuyoId(),
-            puyo: movablePuyo,
+            color: movablePuyoColor,
             element: PuyoImage.getPuyo(),
         };
         // ぷよの初期配置を定める
@@ -544,7 +544,7 @@ export class Player {
             Stage.setPuyo(
                 x,
                 y,
-                this.centerPuyoOnBoard.puyo,
+                this.centerPuyoOnBoard.color,
                 this.centerPuyoOnBoard.puyoId
             );
             Stage.puyoCount++;
@@ -554,7 +554,7 @@ export class Player {
             Stage.setPuyo(
                 x + dx,
                 y + dy,
-                this.movablePuyoOnBoard.puyo,
+                this.movablePuyoOnBoard.color,
                 this.movablePuyoOnBoard.puyoId
             );
             Stage.puyoCount++;

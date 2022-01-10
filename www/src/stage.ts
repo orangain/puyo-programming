@@ -3,7 +3,7 @@ import { PuyoImage, VirtualPuyoElement } from "./puyoimage";
 
 export type PuyoOnBoard = {
     puyoId: number;
-    puyo: PuyoColor;
+    color: PuyoColor;
     element: VirtualPuyoElement;
 };
 
@@ -53,7 +53,7 @@ export class Stage {
         // メモリにセットする
         this.board[y][x] = {
             puyoId,
-            puyo,
+            color: puyo,
             element: puyoImage,
         };
     }
@@ -142,7 +142,7 @@ export class Stage {
                 return;
             }
             // あるなら一旦退避して、メモリ上から消す
-            const puyo = orig.puyo;
+            const puyo = orig.color;
             sequencePuyoInfoList.push({
                 x: x,
                 y: y,
@@ -170,7 +170,7 @@ export class Stage {
                     continue;
                 }
                 const cell = this.board[dy][dx];
-                if (!cell || cell.puyo !== puyo) {
+                if (!cell || cell.color !== puyo) {
                     // ぷよの色が違う
                     continue;
                 }
@@ -183,7 +183,7 @@ export class Stage {
         for (let y = 0; y < Config.stageRows; y++) {
             for (let x = 0; x < Config.stageCols; x++) {
                 sequencePuyoInfoList.length = 0;
-                const puyoColor = this.board[y][x]?.puyo;
+                const puyoColor = this.board[y][x]?.color;
                 checkSequentialPuyo(x, y);
                 if (
                     sequencePuyoInfoList.length == 0 ||
