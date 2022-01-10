@@ -8,6 +8,7 @@ import { Player } from "../player";
 import { Batankyu } from "./Batankyu";
 import { PuyoImage } from "../puyoimage";
 import { Zenkeshi } from "./Zenkeshi";
+import { Config } from "../config";
 
 // まずステージを整える
 const initialFrame = initialize();
@@ -58,7 +59,15 @@ export const Game: React.VFC = () => {
     const isBatankyu = mode === "batankyu";
 
     return (
-        <>
+        <div
+            style={{
+                position: "relative",
+                width: Config.puyoImgWidth * Config.stageCols,
+                margin: "0 auto",
+                overflow: "hidden",
+                background: "url(img/puyo_2bg.png)",
+            }}
+        >
             {Stage.zenkeshiVisible && (
                 <Zenkeshi
                     showRatio={Stage.zenkeshiShowRatio}
@@ -72,7 +81,7 @@ export const Game: React.VFC = () => {
                 />
             )}
             <ScoreComponent score={Score.score} />
-        </>
+        </div>
     );
 };
 

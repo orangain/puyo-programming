@@ -6,5 +6,5 @@ ReactDOM.render(
     <React.StrictMode>
         <Game />
     </React.StrictMode>,
-    document.getElementById("game")
+    document.getElementById("root")
 );
