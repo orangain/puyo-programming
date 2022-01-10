@@ -67,7 +67,10 @@ export function tick(frame: number): number {
                 );
                 Stage.hideZenkeshi();
             } else {
-                if (Stage.puyoCount === 0 && combinationCount > 0) {
+                if (
+                    Stage.getPuyoOnBoards().length === 0 &&
+                    combinationCount > 0
+                ) {
                     // 全消しの処理をする
                     Stage.showZenkeshi();
                     Score.addScore(3600);

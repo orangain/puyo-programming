@@ -408,7 +408,6 @@ export class Player {
         if (y >= 0) {
             // 画面外のぷよは消してしまう
             Stage.setPuyo(x, y, this.centerPuyo.color, this.centerPuyo.puyoId);
-            Stage.puyoCount++;
         }
         if (y + dy >= 0) {
             // 画面外のぷよは消してしまう
@@ -418,7 +417,6 @@ export class Player {
                 this.movablePuyo.color,
                 this.movablePuyo.puyoId
             );
-            Stage.puyoCount++;
         }
         // 操作用に作成したぷよ画像を消す
         this.centerPuyo = null;

@@ -25,7 +25,6 @@ type PuyoInfo = {
 
 export class Stage {
     static board: (null | PuyoOnBoard)[][];
-    static puyoCount: number;
     static fallingPuyoList: FallingPuyo[];
     static eraseStartFrame: number;
     static erasingPuyoInfoList: PuyoInfo[];
@@ -37,14 +36,12 @@ export class Stage {
     static initialize() {
         // メモリを準備する
         this.board = [];
-        let puyoCount = 0;
         for (let y = 0; y < Config.stageRows; y++) {
             this.board[y] = [];
             for (let x = 0; x < Config.stageCols; x++) {
                 this.board[y][x] = null;
             }
         }
-        this.puyoCount = puyoCount;
     }
 
     static getPuyoOnBoards(): PuyoOnBoard[] {
@@ -209,7 +206,6 @@ export class Stage {
                 }
             }
         }
-        this.puyoCount -= this.erasingPuyoInfoList.length;
 
         // 消さないリストに入っていたぷよをメモリに復帰させる
         for (const info of existingPuyoInfoList) {
