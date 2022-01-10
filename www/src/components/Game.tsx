@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { GameStage } from "./GameStage";
 import { Scoreboard } from "./Scoreboard";
-import { gameOverFrame, initialize, mode, tick } from "../game";
+import { initialize, tick, getBatankyuAnimationRatio } from "../game";
 import { Score } from "../score";
 import { Stage } from "../stage";
 import { Player } from "../player";
@@ -38,7 +38,7 @@ export const Game: React.VFC = () => {
         ...Stage.getErasingPuyos(),
         ...Player.getPlayingPuyos(),
     ];
-    const isBatankyu = mode === "batankyu";
+    const batankyuAnimationRatio = getBatankyuAnimationRatio(frame);
     const zenkeshiAnimationState = Stage.getZenkeshiAnimationState(frame);
 
     return (
@@ -53,8 +53,8 @@ export const Game: React.VFC = () => {
         >
             {zenkeshiAnimationState && <Zenkeshi {...zenkeshiAnimationState} />}
             <GameStage puyos={puyos} />
-            {isBatankyu && (
-                <Batankyu framesFromGameOver={frame - gameOverFrame} />
+            {batankyuAnimationRatio !== null && (
+                <Batankyu animationRatio={batankyuAnimationRatio} />
             )}
             <Scoreboard score={Score.score} />
         </div>

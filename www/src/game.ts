@@ -2,6 +2,7 @@ import { Stage } from "./stage";
 import { Player } from "./player";
 import { Score } from "./score";
 import { Input } from "./input";
+import { Config } from "./config";
 
 type GameMode =
     | "start"
@@ -17,9 +18,9 @@ type GameMode =
     | "gameOver"
     | "batankyu";
 
-export let mode: GameMode; // ゲームの現在の状況
+let mode: GameMode; // ゲームの現在の状況
 let combinationCount = 0; // 何連鎖かどうか
-export let gameOverFrame: number; // ゲームオーバーになったフレーム
+let gameOverFrame: number; // ゲームオーバーになったフレーム
 
 export function initialize(): number {
     // ステージを準備する
@@ -129,4 +130,12 @@ export function tick(frame: number): number {
     }
 
     return frame + 1;
+}
+
+export function getBatankyuAnimationRatio(frame: number): number | null {
+    if (mode !== "batankyu") {
+        return null;
+    }
+
+    return (frame - gameOverFrame) / Config.gameOverFrame;
 }
