@@ -8,8 +8,6 @@ export type VirtualPuyoElement = {
 };
 
 export class PuyoImage {
-    static gameOverFrame: number;
-
     static getPuyo(): VirtualPuyoElement {
         return {
             style: {
@@ -17,9 +15,5 @@ export class PuyoImage {
                 top: "0",
             },
         };
-    }
-
-    static prepareBatankyu(frame: number) {
-        this.gameOverFrame = frame;
     }
 }

@@ -19,6 +19,7 @@ type GameMode =
 
 export let mode: GameMode; // ゲームの現在の状況
 let combinationCount = 0; // 何連鎖かどうか
+export let gameOverFrame: number; // ゲームオーバーになったフレーム
 
 export function initialize(): number {
     // ステージを準備する
@@ -116,7 +117,7 @@ export function tick(frame: number): number {
             break;
         case "gameOver":
             // ばたんきゅーの準備をする
-            PuyoImage.prepareBatankyu(frame);
+            gameOverFrame = frame;
             mode = "batankyu";
             break;
         case "batankyu":
